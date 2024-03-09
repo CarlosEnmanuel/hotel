@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ProveedoresController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ProveedoresController">
     <children>
         <!-- Panel de navegación -->
-        <Pane layoutX="-5.0" layoutY="-6.0" prefHeight="608.0" prefWidth="200.0" style="-fx-background-color: #34445b;">
+        <Pane layoutX="-5.0" layoutY="56.0" prefHeight="546.0" prefWidth="200.0" style="-fx-background-color: #34445b;">
             <cursor>
                 <Cursor fx:constant="DEFAULT" />
             </cursor>
@@ -57,7 +55,7 @@
                         <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Button>
-                <Button fx:id="logOut" layoutX="20.0" layoutY="568.0" mnemonicParsing="false" onAction="#userLogOut" prefHeight="25.0" prefWidth="160.0" text="Salir">
+                <Button fx:id="logOut" layoutX="20.0" layoutY="462.0" mnemonicParsing="false" onAction="#userLogOut" prefHeight="25.0" prefWidth="160.0" text="Salir">
                     <font>
                         <Font name="Arial Bold" size="14.0" />
                     </font>
@@ -79,8 +77,10 @@
                 </Label>
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="60.0" prefHeight="520.0" prefWidth="760.0" style="-fx-background-color: #f0f0f0;">
-                    <!-- Agrega tus elementos de dashboard aquí -->
-                </Pane>
+               <children>
+                  <Label layoutX="34.0" layoutY="30.0" text="Nombre:" />
+                  <Label layoutX="34.0" layoutY="95.0" text="Direccion:" />
+               </children></Pane>
             </children>
         </Pane>
         <!-- Imagen de fondo -->
@@ -89,5 +89,24 @@
                 <!-- <Image url="@../../../Imagenes/inicioimg.png" />-->
             </image>
         </ImageView>
+      <TableView layoutX="223.0" layoutY="262.0" prefHeight="200.0" prefWidth="753.0">
+        <columns>
+          <TableColumn prefWidth="87.79998779296875" text="Cod Proveedor" />
+          <TableColumn prefWidth="195.4000244140625" text="Nombre" />
+            <TableColumn prefWidth="103.79998779296875" text="Telefono" />
+            <TableColumn prefWidth="201.5999755859375" text="Direccion" />
+            <TableColumn prefWidth="164.800048828125" text="Representante" />
+        </columns>
+      </TableView>
+      <Button layoutX="474.0" layoutY="212.0" mnemonicParsing="false" text="Guardar" />
+      <Button layoutX="659.0" layoutY="212.0" mnemonicParsing="false" text="Limpiar" />
+      <Button layoutX="474.0" layoutY="515.0" mnemonicParsing="false" text="Eliminar" />
+      <Button layoutX="661.0" layoutY="515.0" mnemonicParsing="false" text="Actualizar" />
+      <Label layoutX="624.0" layoutY="87.0" text="Telefono" />
+      <Label layoutX="600.0" layoutY="159.0" text="Representante" />
+      <TextField layoutX="325.0" layoutY="83.0" />
+      <TextField layoutX="325.0" layoutY="146.0" />
+      <TextField layoutX="686.0" layoutY="155.0" prefHeight="26.0" prefWidth="246.0" />
+      <TextField layoutX="687.0" layoutY="83.0" prefHeight="26.0" prefWidth="246.0" />
     </children>
 </AnchorPane>

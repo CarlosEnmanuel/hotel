@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ClienteController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ClienteController">
     <children>
         <!-- Panel de navegación -->
         <Pane layoutX="-5.0" layoutY="-6.0" prefHeight="608.0" prefWidth="200.0" style="-fx-background-color: #34445b;">
@@ -70,13 +68,8 @@
             </children>
         </Pane>
         <!-- Contenido principal -->
-        <Pane layoutX="200.0" layoutY="0.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;">
+        <Pane layoutX="200.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: white;">
             <children>
-                <Label disable="true" layoutX="20.0" layoutY="10.0" text="Usuario Administrador Cliente" textFill="#34445b">
-                    <font>
-                        <Font name="Arial" size="18.0" />
-                    </font>
-                </Label>
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="60.0" prefHeight="520.0" prefWidth="760.0" style="-fx-background-color: #f0f0f0;">
                     <!-- Agrega tus elementos de dashboard aquí -->
@@ -89,5 +82,10 @@
                 <!-- <Image url="@../../../Imagenes/inicioimg.png" />-->
             </image>
         </ImageView>
+          <Label disable="true" layoutX="247.0" layoutY="100.0" text="Usuario Administrador Cliente" textFill="#34445b">
+              <font>
+                  <Font name="Arial" size="18.0" />
+              </font>
+          </Label>
     </children>
 </AnchorPane>
