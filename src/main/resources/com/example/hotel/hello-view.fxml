@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400" minWidth="600" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #A9DFBF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.LoginController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400" minWidth="600" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #A9DFBF;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.LoginController">
   <left>
     <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #85C1E9;" BorderPane.alignment="CENTER">
       <children>
@@ -37,7 +37,7 @@
         </Label>
         <TextField fx:id="username" layoutX="136.0" layoutY="142.0" promptText="usuario" />
         <PasswordField fx:id="contra" layoutX="136.0" layoutY="203.0" promptText="contraseña" />
-        <Button fx:id="button" layoutX="137.0" layoutY="279.0" mnemonicParsing="false" style="-fx-background-color: #7FB3D5;" text="Ingresar" textFill="#fcf6f6">
+        <Button fx:id="button" layoutX="137.0" layoutY="279.0" mnemonicParsing="false" onAction="#userLogin" style="-fx-background-color: #7FB3D5;" text="Ingresar" textFill="#fcf6f6">
           <font>
             <Font size="15.0" />
           </font>
