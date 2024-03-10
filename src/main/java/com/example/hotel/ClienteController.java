@@ -36,6 +36,7 @@ public class ClienteController {
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
+        stage.setResizable(true);
 
 
         // Mostrar la nueva vista

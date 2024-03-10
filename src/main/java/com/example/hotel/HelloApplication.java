@@ -13,6 +13,8 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setTitle("Hotel");
+
+
         stage.setScene(scene);
         stage.setResizable(false); // Evita que la ventana se pueda maximizar
         stage.show();

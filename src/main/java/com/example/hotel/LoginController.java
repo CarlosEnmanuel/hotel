@@ -52,7 +52,7 @@ public class LoginController {
             }
         } else {
             if (enteredUsername.equals("usuario") && enteredPassword.equals("contraseña")) {
-                wrongLogin.setText("Credenciales correctas");
+
                 wrongLogin2.setText("");
 
 
@@ -72,7 +72,7 @@ public class LoginController {
                 if (!enteredUsername.equals("usuario")) {
                     wrongLogin2.setText("Datos Incorrectos");
                 } else {
-                    wrongLogin2.setText("Datos Incorrects");
+                    wrongLogin2.setText("Datos Incorrectos");
                 }
             }
         }

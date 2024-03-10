@@ -1,16 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.hotel.HelloController">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-  </padding>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
-  <Label fx:id="welcomeText"/>
-  <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #A9DFBF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.LoginController">
+  <left>
+    <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #85C1E9;" BorderPane.alignment="CENTER">
+      <children>
+        <ImageView fitHeight="400.0" fitWidth="274.0" pickOnBounds="true">
+          <image>
+            <Image url="@../../../imagenes/logo.jpg" />
+          </image>
+        </ImageView>
+      </children>
+    </AnchorPane>
+  </left>
+  <center>
+    <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FDFEFE;" BorderPane.alignment="CENTER">
+      <children>
+        <Label layoutX="14.0" layoutY="139.0" prefHeight="31.0" prefWidth="102.0" text="Usuario" textFill="#225e75">
+          <font>
+            <Font name="Bodoni MT Black" size="21.0" />
+          </font>
+        </Label>
+        <Label layoutX="7.0" layoutY="200.0" prefHeight="31.0" prefWidth="129.0" text="Contraseña" textFill="#225e75">
+          <font>
+            <Font name="Bodoni MT Black" size="21.0" />
+          </font>
+        </Label>
+        <TextField fx:id="username" layoutX="136.0" layoutY="142.0" promptText="usuario" />
+        <PasswordField fx:id="contra" layoutX="136.0" layoutY="203.0" promptText="contraseña" />
+        <Button fx:id="button" layoutX="137.0" layoutY="279.0" mnemonicParsing="false" onAction="#userLogin" style="-fx-background-color: #7FB3D5;" text="Ingresar" textFill="#fcf6f6">
+          <font>
+            <Font size="15.0" />
+          </font>
+        </Button>
+        <Label layoutX="116.0" layoutY="60.0" text="Bienvenido" textFill="#36a1f7">
+          <font>
+            <Font name="Bodoni MT" size="27.0" />
+          </font>
+        </Label>
+        <Label fx:id="wrongLogin2" layoutX="53.0" layoutY="328.0" textFill="#dd2828">
+          <font>
+            <Font size="20.0" />
+          </font>
+        </Label>
+        <Label fx:id="wrongLogin" layoutX="53.0" layoutY="94.0" textFill="#48b542">
+          <font>
+            <Font size="20.0" />
+          </font>
+        </Label>
+      </children>
+    </AnchorPane>
+  </center>
+</BorderPane>
