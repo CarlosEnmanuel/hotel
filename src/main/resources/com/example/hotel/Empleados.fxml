@@ -18,7 +18,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.EmpleadosController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.EmpleadosController">
     <children>
         <!-- Panel de navegación -->
         <Pane layoutX="-5.0" layoutY="72.0" prefHeight="530.0" prefWidth="200.0" style="-fx-background-color: #4A96A7;">
@@ -189,9 +189,9 @@
                         <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" text="Limpiar" />
                         <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" text="Eliminar" />
                         <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" text="Actualizar" />
-                        <TextField layoutX="109.0" layoutY="29.0" prefHeight="25.0" prefWidth="235.0" />
-                        <Label contentDisplay="RIGHT" layoutX="51.0" layoutY="29.0" prefHeight="25.0" prefWidth="58.0" text="Nombre:" />
-                        <Label layoutX="185.0" layoutY="84.0" prefHeight="25.0" prefWidth="43.0" text="Genero:" />
+                        <TextField layoutX="82.0" layoutY="29.0" prefHeight="25.0" prefWidth="235.0" />
+                        <Label contentDisplay="RIGHT" layoutX="22.0" layoutY="29.0" prefHeight="25.0" prefWidth="58.0" text="Nombre:" />
+                        <Label layoutX="22.0" layoutY="91.0" prefHeight="25.0" prefWidth="43.0" text="Genero:" />
                         <Pane layoutX="-20.0" layoutY="-81.0" prefHeight="73.0" prefWidth="806.0" style="-fx-background-color: #4A96A7;">
                             <children>
                                 <Label blendMode="ADD" disable="true" layoutX="326.0" layoutY="15.0" text="Empleados">
@@ -216,20 +216,20 @@
                                     </textFill>
                                 </Label>
                             </children></Pane>
-                        <TextField layoutX="409.0" layoutY="84.0" prefHeight="25.0" prefWidth="84.0" />
+                        <TextField layoutX="409.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
                   <DatePicker layoutX="478.0" layoutY="29.0" />
                   <Label contentDisplay="RIGHT" layoutX="351.0" layoutY="29.0" prefHeight="25.0" prefWidth="120.0" text="Fecha de Nacimiento:" />
-                  <TextField layoutX="82.0" layoutY="84.0" prefHeight="25.0" prefWidth="84.0" />
-                  <Label contentDisplay="RIGHT" layoutX="51.0" layoutY="84.0" prefHeight="25.0" prefWidth="31.0" text="DUI:" />
-                  <MenuButton layoutX="242.0" layoutY="84.0" mnemonicParsing="false" text="Seleccionar">
+                  <TextField layoutX="233.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
+                  <Label contentDisplay="RIGHT" layoutX="200.0" layoutY="91.0" prefHeight="25.0" prefWidth="30.0" text="DUI:" />
+                  <MenuButton layoutX="80.0" layoutY="91.0" mnemonicParsing="false" text="Seleccionar">
                      <items>
                         <MenuItem mnemonicParsing="false" text="Maculino" />
                         <MenuItem mnemonicParsing="false" text="Femenino" />
                      </items>
                   </MenuButton>
-                  <Label layoutX="353.0" layoutY="84.0" prefHeight="25.0" prefWidth="55.0" text="Telefono:" />
-                  <Label layoutX="515.0" layoutY="84.0" prefHeight="25.0" prefWidth="43.0" text="Cargo:" />
-                  <TextField layoutX="565.0" layoutY="84.0" prefHeight="25.0" prefWidth="84.0" />
+                  <Label layoutX="353.0" layoutY="91.0" prefHeight="25.0" prefWidth="55.0" text="Telefono:" />
+                  <Label layoutX="512.0" layoutY="91.0" prefHeight="25.0" prefWidth="43.0" text="Cargo:" />
+                  <TextField layoutX="565.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
                     </children></Pane>
             </children>
         </Pane>
@@ -241,11 +241,11 @@
         </ImageView>
         <TableView layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
             <columns>
-                <TableColumn text="Id Empleado" />
+                <TableColumn text="Cod.Empleado" />
                 <TableColumn prefWidth="221.0" text="Nombre" />
                 <TableColumn minWidth="0.0" prefWidth="124.0" text="Fecha de Nacimiento" />
-            <TableColumn minWidth="0.0" prefWidth="91.0" text="DUI" />
-            <TableColumn minWidth="0.0" prefWidth="71.0" text="Genero" />
+            <TableColumn minWidth="0.0" prefWidth="91.0" text="Genero" />
+            <TableColumn minWidth="0.0" prefWidth="71.0" text="Dui" />
             <TableColumn minWidth="0.0" prefWidth="82.0" text="Telefono" />
             <TableColumn minWidth="0.0" prefWidth="82.0" text="Cargo" />
             </columns>

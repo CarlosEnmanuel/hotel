@@ -2,7 +2,6 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -16,7 +15,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.HabitacionesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.HabitacionesController">
     <children>
         <!-- Panel de navegación -->
         <Pane layoutX="-5.0" layoutY="72.0" prefHeight="530.0" prefWidth="200.0" style="-fx-background-color: #4A96A7;">
@@ -188,7 +187,7 @@
                         <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" text="Eliminar" />
                         <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" text="Actualizar" />
                         <TextField layoutX="171.0" layoutY="46.0" />
-                        <Label contentDisplay="RIGHT" layoutX="59.0" layoutY="46.0" prefHeight="25.0" prefWidth="112.0" text="Nombre de Equipo:" />
+                        <Label contentDisplay="RIGHT" layoutX="59.0" layoutY="46.0" prefHeight="25.0" prefWidth="112.0" text="Tipo de habitacion" />
                         <Label layoutX="351.0" layoutY="46.0" prefHeight="25.0" prefWidth="84.0" text="Descripción:" />
                         <Pane layoutX="-20.0" layoutY="-81.0" prefHeight="73.0" prefWidth="806.0" style="-fx-background-color: #4A96A7;">
                             <children>
@@ -215,12 +214,16 @@
                                 </Label>
                             </children></Pane>
                         <TextField layoutX="423.0" layoutY="46.0" prefHeight="25.0" prefWidth="246.0" />
-                  <Label contentDisplay="RIGHT" layoutX="59.0" layoutY="88.0" prefHeight="25.0" prefWidth="62.0" text="Cantidad:" />
-                  <TextField layoutX="121.0" layoutY="88.0" prefHeight="25.0" prefWidth="112.0" />
-                  <Label contentDisplay="RIGHT" layoutX="257.0" layoutY="88.0" prefHeight="25.0" prefWidth="62.0" text="Precio:" />
-                  <TextField layoutX="305.0" layoutY="88.0" prefHeight="25.0" prefWidth="112.0" />
-                  <Label contentDisplay="RIGHT" layoutX="441.0" layoutY="88.0" prefHeight="25.0" prefWidth="62.0" text="Proveedor:" />
-                  <ComboBox layoutX="519.0" layoutY="88.0" prefWidth="150.0" />
+                  <Label contentDisplay="RIGHT" layoutX="91.0" layoutY="95.0" prefHeight="25.0" prefWidth="62.0" text="Precio:" />
+                  <TextField layoutX="170.0" layoutY="95.0" prefHeight="25.0" prefWidth="112.0" />
+                    <TableView layoutX="34.0" layoutY="203.0" prefHeight="200.0" prefWidth="717.0">
+                        <columns>
+                            <TableColumn prefWidth="82.0" text="Cod. Habitacion" />
+                            <TableColumn prefWidth="181.0" text="Tipo de habitacion" />
+                            <TableColumn minWidth="0.0" prefWidth="347.0" text="Descripcion" />
+                        <TableColumn minWidth="0.0" prefWidth="106.0" text="Precio" />
+                        </columns>
+                    </TableView>
                     </children></Pane>
             </children>
         </Pane>
@@ -230,16 +233,6 @@
                 <!-- <Image url="@../../../Imagenes/inicioimg.png" />-->
             </image>
         </ImageView>
-        <TableView layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
-            <columns>
-                <TableColumn prefWidth="82.0" text="Id Habitacion" />
-                <TableColumn prefWidth="181.0" text="Nombre de Equipo" />
-                <TableColumn minWidth="0.0" prefWidth="202.0" text="Descripcion" />
-            <TableColumn minWidth="0.0" prefWidth="89.0" text="Cantidad" />
-            <TableColumn minWidth="0.0" prefWidth="84.0" text="Precio" />
-            <TableColumn minWidth="0.0" prefWidth="110.0" text="Proveedor" />
-            </columns>
-        </TableView>
         <Label layoutX="21.0" layoutY="21.0" prefHeight="26.0" prefWidth="149.0" text="Administrador">
             <font>
                 <Font size="22.0" />

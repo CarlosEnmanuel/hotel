@@ -18,7 +18,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ClienteController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ClienteController">
     <children>
         <!-- Panel de navegación -->
         <Pane layoutX="-5.0" layoutY="72.0" prefHeight="530.0" prefWidth="200.0" style="-fx-background-color: #4A96A7;">
@@ -185,13 +185,13 @@
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="78.0" prefHeight="514.0" prefWidth="760.0" style="-fx-background-color: #5FBFC6;">
                     <children>
-                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
-                        <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" text="Limpiar" />
-                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" text="Eliminar" />
-                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" text="Actualizar" />
-                        <TextField layoutX="108.0" layoutY="24.0" />
+                        <Button fx:id="guardarButton" layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarCliente" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
+                        <Button fx:id="limpiarButton" layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
+                        <Button fx:id="eliminarButton" layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarCliente" text="Eliminar" />
+                        <Button fx:id="actualizarButton" layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarCliente" text="Actualizar" />
+                        <TextField fx:id="nombreTextField" layoutX="108.0" layoutY="24.0" />
                         <Label contentDisplay="RIGHT" layoutX="45.0" layoutY="24.0" prefHeight="25.0" prefWidth="58.0" text="Nombre:" />
-                        <Label layoutX="603.0" layoutY="49.0" prefHeight="25.0" prefWidth="43.0" text="Genero:" />
+                        <Label layoutX="53.0" layoutY="75.0" prefHeight="25.0" prefWidth="43.0" text="Genero:" />
                         <Pane layoutX="-20.0" layoutY="-81.0" prefHeight="73.0" prefWidth="806.0" style="-fx-background-color: #4A96A7;">
                             <children>
                                 <Label blendMode="ADD" disable="true" layoutX="326.0" layoutY="15.0" text="Clientes">
@@ -216,18 +216,28 @@
                                     </textFill>
                                 </Label>
                             </children></Pane>
-                  <MenuButton layoutX="654.0" layoutY="49.0" mnemonicParsing="false" text="Seleccionar">
+                  <MenuButton fx:id="generoMenuButton" layoutX="103.0" layoutY="75.0" mnemonicParsing="false" text="Seleccionar">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Maculino" />
                       <MenuItem mnemonicParsing="false" text="Femenino" />
                     </items>
                   </MenuButton>
-                  <Label contentDisplay="RIGHT" layoutX="45.0" layoutY="73.0" prefHeight="25.0" prefWidth="58.0" text="Teléfono:" />
-                  <TextField layoutX="108.0" layoutY="73.0" />
-                  <Label contentDisplay="RIGHT" layoutX="340.0" layoutY="74.0" prefHeight="25.0" prefWidth="58.0" text="Historial:" />
-                  <TextField layoutX="404.0" layoutY="73.0" />
+                  <Label contentDisplay="RIGHT" layoutX="576.0" layoutY="24.0" prefHeight="25.0" prefWidth="58.0" text="Teléfono:" />
+                  <TextField fx:id="telefonoTextField" layoutX="634.0" layoutY="24.0" />
                   <Label layoutX="288.0" layoutY="24.0" prefHeight="25.0" prefWidth="104.0" text="Fecha Nacimiento:" />
-                  <DatePicker layoutX="404.0" layoutY="24.0" prefHeight="25.0" prefWidth="149.0" />
+                  <DatePicker fx:id="fechaNacimientoDatePicker" layoutX="404.0" layoutY="24.0" prefHeight="25.0" prefWidth="149.0" />
+                    <TableView fx:id="clientesTableView" layoutX="39.0" layoutY="209.0" prefHeight="200.0" prefWidth="707.0">
+                        <columns>
+                            <TableColumn fx:id="codigoClienteColumn" prefWidth="53.0" text="Codigo De Cliente" />
+                            <TableColumn fx:id="nombreColumn" prefWidth="175.0" text="Nombre" />
+                            <TableColumn fx:id="generoColumn" maxWidth="154.0" minWidth="0.0" prefWidth="85.0" text="Genero" />
+                        <TableColumn fx:id="fechaNacimientoColumn" maxWidth="188.0" minWidth="0.0" prefWidth="152.0" text="FechaNacimiento" />
+                        <TableColumn fx:id="duiColumn" maxWidth="264.0" minWidth="0.0" prefWidth="110.0" text="Dui" />
+                        <TableColumn fx:id="telefonoColumn" maxWidth="281.0" minWidth="0.0" prefWidth="131.0" text="Telefono" />
+                        </columns>
+                    </TableView>
+                  <TextField fx:id="duiTextField" layoutX="404.0" layoutY="75.0" />
+                  <Label contentDisplay="RIGHT" layoutX="325.0" layoutY="75.0" prefHeight="25.0" prefWidth="58.0" text="Dui:" />
                     </children></Pane>
             </children>
         </Pane>
@@ -237,16 +247,6 @@
                 <!-- <Image url="@../../../Imagenes/inicioimg.png" />-->
             </image>
         </ImageView>
-        <TableView layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
-            <columns>
-                <TableColumn prefWidth="77.0" text="Codigo De Cliente" />
-                <TableColumn prefWidth="151.0" text="Nombre" />
-                <TableColumn maxWidth="154.0" minWidth="0.0" prefWidth="123.0" text="Fecha Nacimiento" />
-            <TableColumn maxWidth="188.0" minWidth="0.0" prefWidth="144.0" text="Genero" />
-            <TableColumn maxWidth="264.0" minWidth="0.0" prefWidth="121.0" text="Teléfono" />
-            <TableColumn maxWidth="281.0" minWidth="0.0" prefWidth="132.0" text="Historial" />
-            </columns>
-        </TableView>
         <Label layoutX="21.0" layoutY="21.0" prefHeight="26.0" prefWidth="149.0" text="Administrador">
             <font>
                 <Font size="22.0" />
