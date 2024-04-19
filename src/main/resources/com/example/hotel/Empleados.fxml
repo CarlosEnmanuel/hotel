@@ -2,10 +2,9 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -185,11 +184,11 @@
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="78.0" prefHeight="514.0" prefWidth="760.0" style="-fx-background-color: #5FBFC6;">
                     <children>
-                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
-                        <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" text="Limpiar" />
-                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" text="Eliminar" />
-                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" text="Actualizar" />
-                        <TextField layoutX="82.0" layoutY="29.0" prefHeight="25.0" prefWidth="235.0" />
+                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarEmpleado" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
+                        <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
+                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarEmpleado" text="Eliminar" />
+                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarEmpleado" text="Actualizar" />
+                        <TextField fx:id="nombresEmpleadoTextField" layoutX="82.0" layoutY="29.0" prefHeight="25.0" prefWidth="235.0" />
                         <Label contentDisplay="RIGHT" layoutX="22.0" layoutY="29.0" prefHeight="25.0" prefWidth="58.0" text="Nombre:" />
                         <Label layoutX="22.0" layoutY="91.0" prefHeight="25.0" prefWidth="43.0" text="Genero:" />
                         <Pane layoutX="-20.0" layoutY="-81.0" prefHeight="73.0" prefWidth="806.0" style="-fx-background-color: #4A96A7;">
@@ -216,20 +215,15 @@
                                     </textFill>
                                 </Label>
                             </children></Pane>
-                        <TextField layoutX="409.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
-                  <DatePicker layoutX="478.0" layoutY="29.0" />
+                        <TextField fx:id="telefonoTextField" layoutX="409.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
+                  <DatePicker fx:id="fechaNacimientoDatePicker" layoutX="478.0" layoutY="29.0" />
                   <Label contentDisplay="RIGHT" layoutX="351.0" layoutY="29.0" prefHeight="25.0" prefWidth="120.0" text="Fecha de Nacimiento:" />
-                  <TextField layoutX="233.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
-                  <Label contentDisplay="RIGHT" layoutX="200.0" layoutY="91.0" prefHeight="25.0" prefWidth="30.0" text="DUI:" />
-                  <MenuButton layoutX="80.0" layoutY="91.0" mnemonicParsing="false" text="Seleccionar">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Maculino" />
-                        <MenuItem mnemonicParsing="false" text="Femenino" />
-                     </items>
-                  </MenuButton>
+                  <TextField fx:id="duiTextField" layoutX="246.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
+                  <Label contentDisplay="RIGHT" layoutX="213.0" layoutY="91.0" prefHeight="25.0" prefWidth="30.0" text="DUI:" />
                   <Label layoutX="353.0" layoutY="91.0" prefHeight="25.0" prefWidth="55.0" text="Telefono:" />
                   <Label layoutX="512.0" layoutY="91.0" prefHeight="25.0" prefWidth="43.0" text="Cargo:" />
-                  <TextField layoutX="565.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
+                  <TextField fx:id="cargoTextField" layoutX="565.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
+                  <ComboBox fx:id="generoComboBox" layoutX="72.0" layoutY="91.0" prefHeight="25.0" prefWidth="128.0" />
                     </children></Pane>
             </children>
         </Pane>
@@ -239,15 +233,15 @@
                 <!-- <Image url="@../../../Imagenes/inicioimg.png" />-->
             </image>
         </ImageView>
-        <TableView layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
+        <TableView fx:id="empleadosTableView" layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
             <columns>
-                <TableColumn text="Cod.Empleado" />
-                <TableColumn prefWidth="221.0" text="Nombre" />
-                <TableColumn minWidth="0.0" prefWidth="124.0" text="Fecha de Nacimiento" />
-            <TableColumn minWidth="0.0" prefWidth="91.0" text="Genero" />
-            <TableColumn minWidth="0.0" prefWidth="71.0" text="Dui" />
-            <TableColumn minWidth="0.0" prefWidth="82.0" text="Telefono" />
-            <TableColumn minWidth="0.0" prefWidth="82.0" text="Cargo" />
+                <TableColumn fx:id="codigoEmpleadoColumn" text="Cod.Empleado" />
+                <TableColumn fx:id="nombresEmpleadoColumn" prefWidth="221.0" text="Nombre" />
+                <TableColumn fx:id="fechaNacimientoColumn" minWidth="0.0" prefWidth="124.0" text="Fecha de Nacimiento" />
+            <TableColumn fx:id="generoColumn" minWidth="0.0" prefWidth="91.0" text="Genero" />
+            <TableColumn fx:id="duiColumn" minWidth="0.0" prefWidth="71.0" text="Dui" />
+            <TableColumn fx:id="telefonoColumn" minWidth="0.0" prefWidth="82.0" text="Telefono" />
+            <TableColumn fx:id="cargoColumn" minWidth="0.0" prefWidth="82.0" text="Cargo" />
             </columns>
         </TableView>
         <Label layoutX="21.0" layoutY="21.0" prefHeight="26.0" prefWidth="149.0" text="Administrador">
