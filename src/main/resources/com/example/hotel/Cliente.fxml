@@ -2,10 +2,9 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -18,7 +17,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ClienteController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ClienteController">
     <children>
         <!-- Panel de navegación -->
         <Pane layoutX="-5.0" layoutY="72.0" prefHeight="530.0" prefWidth="200.0" style="-fx-background-color: #4A96A7;">
@@ -216,12 +215,6 @@
                                     </textFill>
                                 </Label>
                             </children></Pane>
-                  <MenuButton fx:id="generoMenuButton" layoutX="103.0" layoutY="75.0" mnemonicParsing="false" text="Seleccionar">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Maculino" />
-                      <MenuItem mnemonicParsing="false" text="Femenino" />
-                    </items>
-                  </MenuButton>
                   <Label contentDisplay="RIGHT" layoutX="576.0" layoutY="24.0" prefHeight="25.0" prefWidth="58.0" text="Teléfono:" />
                   <TextField fx:id="telefonoTextField" layoutX="634.0" layoutY="24.0" />
                   <Label layoutX="288.0" layoutY="24.0" prefHeight="25.0" prefWidth="104.0" text="Fecha Nacimiento:" />
@@ -238,6 +231,7 @@
                     </TableView>
                   <TextField fx:id="duiTextField" layoutX="404.0" layoutY="75.0" />
                   <Label contentDisplay="RIGHT" layoutX="325.0" layoutY="75.0" prefHeight="25.0" prefWidth="58.0" text="Dui:" />
+                  <ComboBox fx:id="generoComboBox" layoutX="107.0" layoutY="75.0" prefWidth="150.0" promptText="Seleccionar" />
                     </children></Pane>
             </children>
         </Pane>

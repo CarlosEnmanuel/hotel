@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.HorariosController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.HorariosController">
     <children>
         <!-- Panel de navegación -->
         <Pane layoutX="-5.0" layoutY="72.0" prefHeight="530.0" prefWidth="200.0" style="-fx-background-color: #4A96A7;">
@@ -188,7 +188,7 @@
                         <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" text="Eliminar" />
                         <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" text="Actualizar" />
                         <Label contentDisplay="RIGHT" layoutX="53.0" layoutY="71.0" prefHeight="25.0" prefWidth="99.0" text="Fecha De Entrada:" />
-                        <Pane layoutX="-20.0" layoutY="-81.0" prefHeight="73.0" prefWidth="806.0" style="-fx-background-color: #4A96A7;">
+                        <Pane layoutX="-23.0" layoutY="-81.0" prefHeight="80.0" prefWidth="806.0" style="-fx-background-color: #4A96A7;">
                             <children>
                                 <Label blendMode="ADD" disable="true" layoutX="326.0" layoutY="15.0" text="Horarios">
                                     <font>
@@ -211,7 +211,8 @@
                                         </RadialGradient>
                                     </textFill>
                                 </Label>
-                            </children></Pane>
+                            </children>
+                  </Pane>
                   <DatePicker layoutX="152.0" layoutY="71.0" />
                   <DatePicker layoutX="451.0" layoutY="71.0" />
                   <Label contentDisplay="RIGHT" layoutX="352.0" layoutY="71.0" prefHeight="25.0" prefWidth="99.0" text="Fecha De Salida:" />

@@ -30,7 +30,7 @@ public class ClienteController {
     @FXML
     private TextField nombreTextField;
     @FXML
-    private MenuButton generoMenuButton;
+    private ComboBox generoComboBox;
     @FXML
     private TextField telefonoTextField;
     @FXML
@@ -72,7 +72,7 @@ public class ClienteController {
         fechaNacimientoColumn.setCellValueFactory(new PropertyValueFactory<>("fechaNacimiento"));
         duiColumn.setCellValueFactory(new PropertyValueFactory<>("dui"));
         telefonoColumn.setCellValueFactory(new PropertyValueFactory<>("telefono"));
-
+        generoComboBox.setItems(FXCollections.observableArrayList("Masculino", "Femenino"));
         // Asignar la lista de clientes a la TableView
         clientesTableView.setItems(clientes);
 
@@ -135,7 +135,7 @@ public class ClienteController {
     @FXML
     void guardarCliente() {
         String nombre = nombreTextField.getText();
-        String genero = generoMenuButton.getText();
+        String genero = (generoComboBox.getValue() != null) ? generoComboBox.getValue().toString() : "";
         String telefono = telefonoTextField.getText();
         String dui = duiTextField.getText();
         LocalDate fechaNacimiento = fechaNacimientoDatePicker.getValue();
@@ -264,7 +264,7 @@ public class ClienteController {
 
         // Obtener los nuevos datos del cliente desde los campos de entrada
         String nuevoNombre = nombreTextField.getText();
-        String nuevoGenero = generoMenuButton.getText();
+        String nuevoGenero = (generoComboBox.getValue() != null) ? generoComboBox.getValue().toString() : "";
         String nuevoTelefono = telefonoTextField.getText();
         String nuevoDui = duiTextField.getText();
         LocalDate nuevaFechaNacimiento = fechaNacimientoDatePicker.getValue();

@@ -63,7 +63,7 @@ public class LoginController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Inicio.fxml"));
                 Scene scene = new Scene(loader.load());
                 Stage stage = new Stage();
-                stage.setTitle("Inicio");
+                stage.setTitle("Hotel");
                 stage.setScene(scene);
                 stage.setResizable(false);
                 stage.show();

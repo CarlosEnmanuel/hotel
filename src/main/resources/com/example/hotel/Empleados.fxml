@@ -17,7 +17,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.EmpleadosController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.EmpleadosController">
     <children>
         <!-- Panel de navegación -->
         <Pane layoutX="-5.0" layoutY="72.0" prefHeight="530.0" prefWidth="200.0" style="-fx-background-color: #4A96A7;">
@@ -223,7 +223,7 @@
                   <Label layoutX="353.0" layoutY="91.0" prefHeight="25.0" prefWidth="55.0" text="Telefono:" />
                   <Label layoutX="512.0" layoutY="91.0" prefHeight="25.0" prefWidth="43.0" text="Cargo:" />
                   <TextField fx:id="cargoTextField" layoutX="565.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
-                  <ComboBox fx:id="generoComboBox" layoutX="72.0" layoutY="91.0" prefHeight="25.0" prefWidth="128.0" />
+                  <ComboBox fx:id="generoComboBox" layoutX="72.0" layoutY="91.0" prefHeight="25.0" prefWidth="128.0" promptText="Seleccionar" />
                     </children></Pane>
             </children>
         </Pane>
