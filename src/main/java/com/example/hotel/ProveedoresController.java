@@ -3,6 +3,8 @@ package com.example.hotel;
 
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,17 +13,248 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 
 
 public class ProveedoresController {
 
+    @FXML
+    private TextField nombreTextField;
+    @FXML
+    private TextField telefonoTextField;
+    @FXML
+    private TextField direccionTextField;
+    @FXML
+    private TextField representanteTextField;
+    @FXML
+    private TableView<Proveedores> proveedoresTableView;
+    @FXML
+    private TableColumn<Proveedores, Integer> codigoProveedoresColumn;
+    @FXML
+    private TableColumn<Proveedores, String> nombreColumn;
+    @FXML
+    private TableColumn<Proveedores, String> telefonoColumn;
+    @FXML
+    private TableColumn<Proveedores, String> direccionColumn;
+    @FXML
+    private TableColumn<Proveedores, String> nombreContactoColumn;
 
+    @FXML
+    private Button guardarButton;
+    @FXML
+    private Button limpiarButton;
+    @FXML
+    private Button eliminarButton;
+    @FXML
+    private Button actualizarButton;
+
+
+    private ObservableList<Proveedores> proveedores = FXCollections.observableArrayList();
+
+    public void initialize() {
+        codigoProveedoresColumn.setCellValueFactory(new PropertyValueFactory<>("codigoProveedor"));
+        nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreEmpresa"));
+        telefonoColumn.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+        direccionColumn.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+        nombreContactoColumn.setCellValueFactory(new PropertyValueFactory<>("nombreContacto"));
+
+        proveedoresTableView.setItems(proveedores);
+
+        cargarProveedoresDesdeBaseDeDatos();
+    }
+
+    private void cargarProveedoresDesdeBaseDeDatos() {
+        try {
+            Connection conn = Conexion.getConnection();
+            String sql = "SELECT * FROM proveedores";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            proveedores.clear();
+
+            while (rs.next()) {
+                int codigoProveedor = rs.getInt("codigoProveedor");
+                String nombreEmpresa = rs.getString("nombreEmpresa");
+                String telefono = rs.getString("telefono");
+                String direccion = rs.getString("direccion");
+                String nombreContacto = rs.getString("nombreContacto");
+
+                Proveedores proveedor = new Proveedores(codigoProveedor, nombreEmpresa, telefono, direccion, nombreContacto);
+                proveedores.add(proveedor);
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+        }
+    }
+
+    @FXML
+    void guardarProveedor() {
+        String nombreEmpresa = nombreTextField.getText();
+        String telefono = telefonoTextField.getText();
+        String direccion = direccionTextField.getText();
+        String nombreContacto = representanteTextField.getText();
+
+        if (nombreEmpresa.isEmpty() || telefono.isEmpty() || direccion.isEmpty() || nombreContacto.isEmpty()) {
+            mostrarAlerta("Error", "Todos los campos son obligatorios.");
+            return;
+        }
+
+        Proveedores proveedores = new Proveedores(0, nombreEmpresa, telefono, direccion, nombreContacto);
+        if (guardarProveedorEnBD(proveedores)) {
+            mostrarAlerta("Proveedor Guardado", "El proveedor se ha guardado correctamente en la base de datos.");
+        } else {
+            mostrarAlerta("Error", "No se pudo guardar el proveedor en la base de datos.");
+        }
+
+        limpiarCampos();
+        cargarProveedoresDesdeBaseDeDatos();
+    }
+
+    private boolean guardarProveedorEnBD(Proveedores proveedores) {
+        try {
+            Connection conn = Conexion.getConnection();
+            String sql = "INSERT INTO proveedores (nombreEmpresa, telefono, direccion, nombreContacto) VALUES (?, ?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, proveedores.getNombreEmpresa());
+            pstmt.setString(2, proveedores.getTelefono());
+            pstmt.setString(3, proveedores.getDireccion());
+            pstmt.setString(4, proveedores.getNombreContacto());
+
+            int filasAfectadas = pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
+
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+            return false;
+        }
+    }
+
+
+
+    @FXML
+    void eliminarProveedor() {
+        Proveedores proveedorSeleccionado = proveedoresTableView.getSelectionModel().getSelectedItem();
+
+        if (proveedorSeleccionado == null) {
+            mostrarAlerta("Error", "Por favor, selecciona un proveedor para eliminar.");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación de eliminación");
+        alert.setHeaderText("¿Estás seguro de que deseas eliminar este proveedor?");
+        alert.setContentText("Esta acción no se puede deshacer.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                Connection conn = Conexion.getConnection();
+                String sql = "DELETE FROM proveedores WHERE codigoProveedor = ?";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, proveedorSeleccionado.getCodigoProveedor());
+
+                int filasAfectadas = pstmt.executeUpdate();
+
+                pstmt.close();
+                conn.close();
+
+                if (filasAfectadas > 0) {
+                    proveedores.remove(proveedorSeleccionado);
+                    mostrarAlerta("Proveedor Eliminado", "El proveedor se ha eliminado correctamente.");
+                } else {
+                    mostrarAlerta("Error", "No se pudo eliminar el proveedor.");
+                }
+            } catch (SQLException e) {
+                mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+            }
+        }
+    }
+
+    @FXML
+    void actualizarProveedor() {
+        Proveedores proveedorSeleccionado = proveedoresTableView.getSelectionModel().getSelectedItem();
+
+        if (proveedorSeleccionado == null) {
+            mostrarAlerta("Error", "Por favor, selecciona un proveedor para actualizar.");
+            return;
+        }
+
+        String nombreEmpresa = nombreTextField.getText();
+        String telefono = telefonoTextField.getText();
+        String direccion = direccionTextField.getText();
+        String nombreContacto = representanteTextField.getText();
+
+        if (nombreEmpresa.isEmpty() || telefono.isEmpty() || direccion.isEmpty() || nombreContacto.isEmpty()) {
+            mostrarAlerta("Error", "Todos los campos son obligatorios.");
+            return;
+        }
+
+        Proveedores proveedorActualizado = new Proveedores(proveedorSeleccionado.getCodigoProveedor(), nombreEmpresa, telefono, direccion, nombreContacto);
+
+        try {
+            Connection conn = Conexion.getConnection();
+            String sql = "UPDATE proveedores SET nombreEmpresa = ?, telefono = ?, direccion = ?, nombreContacto = ? WHERE codigoProveedor = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, proveedorActualizado.getNombreEmpresa());
+            pstmt.setString(2, proveedorActualizado.getTelefono());
+            pstmt.setString(3, proveedorActualizado.getDireccion());
+            pstmt.setString(4, proveedorActualizado.getNombreContacto());
+            pstmt.setInt(5, proveedorActualizado.getCodigoProveedor());
+
+            int filasAfectadas = pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
+
+            if (filasAfectadas > 0) {
+                int indiceProveedor = proveedores.indexOf(proveedorSeleccionado);
+                proveedores.set(indiceProveedor, proveedorActualizado);
+                mostrarAlerta("Proveedor Actualizado", "El proveedor se ha actualizado correctamente.");
+            } else {
+                mostrarAlerta("Error", "No se pudo actualizar el proveedor.");
+            }
+        } catch (SQLException e) {
+            mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+        }
+
+        limpiarCampos();
+    }
+
+    @FXML
+    void limpiarCampos() {
+        nombreTextField.clear();
+        telefonoTextField.clear();
+        direccionTextField.clear();
+        representanteTextField.clear();
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
 
     @FXML
     private void irAInicio(ActionEvent event) throws IOException {

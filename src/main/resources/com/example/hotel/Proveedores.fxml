@@ -182,11 +182,11 @@
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="78.0" prefHeight="514.0" prefWidth="760.0" style="-fx-background-color: #5FBFC6;">
                     <children>
-                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
-                        <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" text="Limpiar" />
-                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" text="Eliminar" />
-                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" text="Actualizar" />
-                        <TextField layoutX="157.0" layoutY="32.0" />
+                        <Button fx:id="guardarButton" layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarProveedor" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
+                        <Button fx:id="limpiarButton" layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
+                        <Button fx:id="eliminarButton" layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarProveedor" text="Eliminar" />
+                        <Button fx:id="actualizarButton" layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarProveedor" text="Actualizar" />
+                        <TextField fx:id="nombreTextField" layoutX="157.0" layoutY="32.0" />
                         <Label contentDisplay="RIGHT" layoutX="102.0" layoutY="32.0" prefHeight="25.0" prefWidth="55.0" text="Nombre:" />
                         <Pane layoutX="-20.0" layoutY="-81.0" prefHeight="73.0" prefWidth="806.0" style="-fx-background-color: #4A96A7;">
                             <children>
@@ -213,11 +213,11 @@
                                 </Label>
                             </children></Pane>
                   <Label contentDisplay="RIGHT" layoutX="95.0" layoutY="92.0" prefHeight="25.0" prefWidth="62.0" text="Dirección:" />
-                  <TextField layoutX="157.0" layoutY="92.0" prefHeight="25.0" prefWidth="149.0" />
+                  <TextField fx:id="direccionTextField" layoutX="157.0" layoutY="92.0" prefHeight="25.0" prefWidth="149.0" />
                   <Label contentDisplay="RIGHT" layoutX="390.0" layoutY="32.0" prefHeight="25.0" prefWidth="55.0" text="Teléfono:" />
-                  <TextField layoutX="451.0" layoutY="32.0" />
+                  <TextField fx:id="telefonoTextField" layoutX="451.0" layoutY="32.0" />
                   <Label contentDisplay="RIGHT" layoutX="362.0" layoutY="94.0" prefHeight="25.0" prefWidth="88.0" text="Representante:" />
-                  <TextField layoutX="451.0" layoutY="94.0" prefHeight="25.0" prefWidth="149.0" />
+                  <TextField fx:id="representanteTextField" layoutX="451.0" layoutY="94.0" prefHeight="25.0" prefWidth="149.0" />
                     </children></Pane>
             </children>
         </Pane>
@@ -227,13 +227,13 @@
                 <!-- <Image url="@../../../Imagenes/inicioimg.png" />-->
             </image>
         </ImageView>
-        <TableView layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
+        <TableView fx:id="proveedoresTableView" layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
             <columns>
-                <TableColumn maxWidth="100.0" prefWidth="126.00003051757812" text="Cod Proveedor" />
-                <TableColumn prefWidth="184.0" text="Nombre" />
-                <TableColumn maxWidth="200.0" minWidth="0.0" prefWidth="138.0" text="Teléfono" />
-            <TableColumn maxWidth="249.0" minWidth="0.0" prefWidth="186.0" text="Dirección" />
-            <TableColumn maxWidth="249.0" minWidth="0.0" prefWidth="139.0" text="Representante" />
+                <TableColumn fx:id="codigoProveedoresColumn" maxWidth="100.0" prefWidth="126.00003051757812" text="Cod Proveedor" />
+                <TableColumn fx:id="nombreColumn" prefWidth="184.0" text="Nombre" />
+                <TableColumn fx:id="telefonoColumn" maxWidth="200.0" minWidth="0.0" prefWidth="138.0" text="Teléfono" />
+            <TableColumn fx:id="direccionColumn" maxWidth="249.0" minWidth="0.0" prefWidth="186.0" text="Dirección" />
+            <TableColumn fx:id="nombreContactoColumn" maxWidth="249.0" minWidth="0.0" prefWidth="139.0" text="Representante" />
             </columns>
         </TableView>
         <Label layoutX="21.0" layoutY="21.0" prefHeight="26.0" prefWidth="149.0" text="Administrador">
