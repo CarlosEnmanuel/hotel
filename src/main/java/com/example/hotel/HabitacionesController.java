@@ -1,26 +1,238 @@
 package com.example.hotel;
 
-
-
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
-
 
 public class HabitacionesController {
 
+    @FXML
+    private TextField codigoField;
+    @FXML
+    private TextField tipoField;
+    @FXML
+    private TextField descripcionField;
+    @FXML
+    private TextField precioField;
+    @FXML
+    private TableView<Habitacion> tablaHabitaciones;
+    @FXML
+    private TableColumn<Habitacion, Integer> codigoColumn;
+    @FXML
+    private TableColumn<Habitacion, String> tipoColumn;
+    @FXML
+    private TableColumn<Habitacion, String> descripcionColumn;
+    @FXML
+    private TableColumn<Habitacion, String> precioColumn;
+
+    private ObservableList<Habitacion> habitaciones = FXCollections.observableArrayList();
+
+    public void initialize() {
+        codigoColumn.setCellValueFactory(new PropertyValueFactory<>("codigoHabitacion"));
+        tipoColumn.setCellValueFactory(new PropertyValueFactory<>("tipoDeHabitacion"));
+        descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        precioColumn.setCellValueFactory(new PropertyValueFactory<>("precio"));
+
+        tablaHabitaciones.setItems(habitaciones);
+
+        cargarHabitacionesDesdeBaseDeDatos();
+    }
+
+    private void cargarHabitacionesDesdeBaseDeDatos() {
+        try {
+            Connection conn = Conexion.getConnection();
+            String sql = "SELECT * FROM habitaciones";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            habitaciones.clear();
+
+            while (rs.next()) {
+                int codigo = rs.getInt("codigoHabitacion");
+                String tipo = rs.getString("tipoDeHabitacion");
+                String descripcion = rs.getString("descripcion");
+                String precio = rs.getString("precio");
+
+                Habitacion habitacion = new Habitacion(codigo, tipo, descripcion, precio);
+                habitaciones.add(habitacion);
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+        }
+    }
+
+    @FXML
+    void guardarHabitacion() {
+        String tipo = tipoField.getText();
+        String descripcion = descripcionField.getText();
+        String precio = precioField.getText();
+
+        if (tipo.isEmpty() || descripcion.isEmpty() || precio.isEmpty()) {
+            mostrarAlerta("Error", "Todos los campos son obligatorios.");
+            return;
+        }
+
+        Habitacion habitacion = new Habitacion(0, tipo, descripcion, precio);
+        if (guardarHabitacionEnBD(habitacion)) {
+            mostrarAlerta("Habitación Guardada", "La habitación se ha guardado correctamente en la base de datos.");
+        } else {
+            mostrarAlerta("Error", "No se pudo guardar la habitación en la base de datos.");
+        }
+
+        limpiarCampos();
+        cargarHabitacionesDesdeBaseDeDatos();
+    }
+
+
+    private boolean guardarHabitacionEnBD(Habitacion habitacion) {
+        try {
+            Connection conn = Conexion.getConnection();
+            String sql = "INSERT INTO habitaciones (codigoHabitacion, tipoDeHabitacion, descripcion, precio) VALUES (?, ?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, habitacion.getCodigoHabitacion());
+            pstmt.setString(2, habitacion.getTipoDeHabitacion());
+            pstmt.setString(3, habitacion.getDescripcion());
+            pstmt.setString(4, habitacion.getPrecio());
+
+            int filasAfectadas = pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
+
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+            return false;
+        }
+    }
+    private boolean actualizarHabitacionEnBD(Habitacion habitacion) {
+        try {
+            Connection conn = Conexion.getConnection();
+            String sql = "UPDATE habitaciones SET tipoDeHabitacion = ?, descripcion = ?, precio = ? WHERE codigoHabitacion = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, habitacion.getTipoDeHabitacion());
+            pstmt.setString(2, habitacion.getDescripcion());
+            pstmt.setString(3, habitacion.getPrecio());
+            pstmt.setInt(4, habitacion.getCodigoHabitacion());
+
+            int filasAfectadas = pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
+
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+            return false;
+        }
+    }
+    @FXML
+    void actualizarHabitacion() {
+        Habitacion habitacionSeleccionada = tablaHabitaciones.getSelectionModel().getSelectedItem();
+
+        if (habitacionSeleccionada == null) {
+            mostrarAlerta("Error", "Por favor, selecciona una habitación para actualizar.");
+            return;
+        }
+
+        String tipo = tipoField.getText();
+        String descripcion = descripcionField.getText();
+        String precio = precioField.getText();
+
+        if (tipo.isEmpty() || descripcion.isEmpty() || precio.isEmpty()) {
+            mostrarAlerta("Error", "Todos los campos son obligatorios.");
+            return;
+        }
+
+        habitacionSeleccionada.setTipoDeHabitacion(tipo);
+        habitacionSeleccionada.setDescripcion(descripcion);
+        habitacionSeleccionada.setPrecio(precio);
+
+        if (actualizarHabitacionEnBD(habitacionSeleccionada)) {
+            mostrarAlerta("Habitación Actualizada", "La habitación se ha actualizado correctamente en la base de datos.");
+        } else {
+            mostrarAlerta("Error", "No se pudo actualizar la habitación en la base de datos.");
+        }
+
+        limpiarCampos();
+        cargarHabitacionesDesdeBaseDeDatos();
+    }
+
+    @FXML
+    void eliminarHabitacion() {
+        Habitacion habitacionSeleccionada = tablaHabitaciones.getSelectionModel().getSelectedItem();
+
+        if (habitacionSeleccionada == null) {
+            mostrarAlerta("Error", "Por favor, selecciona una habitación para eliminar.");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación de eliminación");
+        alert.setHeaderText("¿Estás seguro de que deseas eliminar esta habitación?");
+        alert.setContentText("Esta acción no se puede deshacer.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                Connection conn = Conexion.getConnection();
+                String sql = "DELETE FROM habitaciones WHERE codigoHabitacion = ?";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, habitacionSeleccionada.getCodigoHabitacion());
+
+                int filasAfectadas = pstmt.executeUpdate();
+
+                pstmt.close();
+                conn.close();
+
+                if (filasAfectadas > 0) {
+                    habitaciones.remove(habitacionSeleccionada);
+                    mostrarAlerta("Habitación Eliminada", "La habitación se ha eliminado correctamente.");
+                } else {
+                    mostrarAlerta("Error", "No se pudo eliminar la habitación.");
+                }
+            } catch (SQLException e) {
+                mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+            }
+        }
+    }
+
+    @FXML
+    void limpiarCampos() {
+
+        tipoField.clear();
+        descripcionField.clear();
+        precioField.clear();
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
 
 
     @FXML
@@ -190,7 +402,7 @@ public class HabitacionesController {
 
     public void userLogOut(ActionEvent event) {
         // Mostrar un cuadro de diálogo de confirmación
-        Alert alert = new Alert(AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación de salida");
         alert.setHeaderText("¿Está seguro de que desea salir del sitio?");
         alert.setContentText("Seleccione Aceptar para salir o Cancelar para continuar.");

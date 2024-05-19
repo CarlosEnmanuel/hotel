@@ -183,10 +183,10 @@
                 <!-- Dashboard -->
                 <Pane layoutX="23.0" layoutY="72.0" prefHeight="514.0" prefWidth="760.0" style="-fx-background-color: #5FBFC6;">
                     <children>
-                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarHorarios" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
+                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarHorario" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
                         <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
-                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" text="Eliminar" />
-                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" text="Actualizar" />
+                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarHorario" text="Eliminar" />
+                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarHorario" text="Actualizar" />
                         <Label contentDisplay="RIGHT" layoutX="53.0" layoutY="71.0" prefHeight="25.0" prefWidth="99.0" text="Fecha De Entrada:" />
                         <Pane layoutX="-23.0" layoutY="-81.0" prefHeight="80.0" prefWidth="806.0" style="-fx-background-color: #4A96A7;">
                             <children>
@@ -213,8 +213,8 @@
                                 </Label>
                             </children>
                   </Pane>
-                  <DatePicker fx:id="checkInDatePicker" layoutX="152.0" layoutY="71.0" />
-                  <DatePicker fx:id="checkOutDatePicker" layoutX="451.0" layoutY="71.0" />
+                  <DatePicker fx:id="checkInDatePicker" editable="false" layoutX="152.0" layoutY="71.0" />
+                  <DatePicker fx:id="checkOutDatePicker" editable="false" layoutX="451.0" layoutY="71.0" />
                   <Label contentDisplay="RIGHT" layoutX="352.0" layoutY="71.0" prefHeight="25.0" prefWidth="99.0" text="Fecha De Salida:" />
                   <Label contentDisplay="RIGHT" layoutX="53.0" layoutY="112.0" prefHeight="25.0" prefWidth="86.0" text="Hora Entrada:" />
                   <Label contentDisplay="RIGHT" layoutX="368.0" layoutY="112.0" prefHeight="25.0" prefWidth="68.0" text="Hora Salida:" />
@@ -222,11 +222,11 @@
                   <Spinner fx:id="checkOutTimeSpinner" layoutX="451.0" layoutY="112.0" />
                     <TableView fx:id="tablaHorarios" layoutX="9.0" layoutY="213.0" prefHeight="200.0" prefWidth="743.0">
                         <columns>
-                            <TableColumn fx:id="idColumna" prefWidth="66.0" text="Id de Horario" />
-                            <TableColumn fx:id="fechaEntradaColumna" prefWidth="157.0" text="Fecha Entrada" />
-                            <TableColumn fx:id="horaEntradaColumna" minWidth="0.0" prefWidth="164.0" text="Hora Entrada" />
-                        <TableColumn fx:id="fechaSalidaColumna" prefWidth="171.0" text="Fecha Salida" />
-                        <TableColumn fx:id="horaSalidaColumna" minWidth="0.0" prefWidth="181.0" text="Hora Salida" />
+                            <TableColumn fx:id="codigoHorarioColumn" prefWidth="66.0" text="Id de Horario" />
+                            <TableColumn fx:id="fechaEntradaColumn" prefWidth="157.0" text="Fecha Entrada" />
+                            <TableColumn fx:id="horaEntradaColumn" minWidth="0.0" prefWidth="164.0" text="Hora Entrada" />
+                        <TableColumn fx:id="fechaSalidaColumn" prefWidth="171.0" text="Fecha Salida" />
+                        <TableColumn fx:id="horaSalidaColumn" minWidth="0.0" prefWidth="181.0" text="Hora Salida" />
                         </columns>
                     </TableView>
                     </children></Pane>

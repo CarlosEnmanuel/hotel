@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.HabitacionesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.HabitacionesController">
     <children>
         <!-- Panel de navegación -->
         <Pane layoutX="-5.0" layoutY="72.0" prefHeight="530.0" prefWidth="200.0" style="-fx-background-color: #4A96A7;">
@@ -182,11 +182,11 @@
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="78.0" prefHeight="514.0" prefWidth="760.0" style="-fx-background-color: #5FBFC6;">
                     <children>
-                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
-                        <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" text="Limpiar" />
-                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" text="Eliminar" />
-                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" text="Actualizar" />
-                        <TextField layoutX="171.0" layoutY="46.0" />
+                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarHabitacion" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
+                        <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
+                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarHabitacion" text="Eliminar" />
+                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarHabitacion" text="Actualizar" />
+                        <TextField fx:id="tipoField" layoutX="171.0" layoutY="46.0" />
                         <Label contentDisplay="RIGHT" layoutX="59.0" layoutY="46.0" prefHeight="25.0" prefWidth="112.0" text="Tipo de habitacion" />
                         <Label layoutX="351.0" layoutY="46.0" prefHeight="25.0" prefWidth="84.0" text="Descripción:" />
                         <Pane layoutX="-20.0" layoutY="-81.0" prefHeight="73.0" prefWidth="806.0" style="-fx-background-color: #4A96A7;">
@@ -213,15 +213,15 @@
                                     </textFill>
                                 </Label>
                             </children></Pane>
-                        <TextField layoutX="423.0" layoutY="46.0" prefHeight="25.0" prefWidth="246.0" />
+                        <TextField fx:id="descripcionField" layoutX="423.0" layoutY="46.0" prefHeight="25.0" prefWidth="246.0" />
                   <Label contentDisplay="RIGHT" layoutX="91.0" layoutY="95.0" prefHeight="25.0" prefWidth="62.0" text="Precio:" />
-                  <TextField layoutX="170.0" layoutY="95.0" prefHeight="25.0" prefWidth="112.0" />
-                    <TableView layoutX="34.0" layoutY="203.0" prefHeight="200.0" prefWidth="717.0">
+                  <TextField fx:id="precioField" layoutX="170.0" layoutY="95.0" prefHeight="25.0" prefWidth="112.0" />
+                    <TableView fx:id="tablaHabitaciones" layoutX="34.0" layoutY="203.0" prefHeight="200.0" prefWidth="717.0">
                         <columns>
-                            <TableColumn prefWidth="82.0" text="Cod. Habitacion" />
-                            <TableColumn prefWidth="181.0" text="Tipo de habitacion" />
-                            <TableColumn minWidth="0.0" prefWidth="347.0" text="Descripcion" />
-                        <TableColumn minWidth="0.0" prefWidth="106.0" text="Precio" />
+                            <TableColumn fx:id="codigoColumn" prefWidth="82.0" text="Cod. Habitacion" />
+                            <TableColumn fx:id="tipoColumn" prefWidth="181.0" text="Tipo de habitacion" />
+                            <TableColumn fx:id="descripcionColumn" minWidth="0.0" prefWidth="347.0" text="Descripcion" />
+                        <TableColumn fx:id="precioColumn" minWidth="0.0" prefWidth="106.0" text="Precio" />
                         </columns>
                     </TableView>
                     </children></Pane>
