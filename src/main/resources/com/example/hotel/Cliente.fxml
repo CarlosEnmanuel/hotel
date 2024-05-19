@@ -217,14 +217,14 @@
                             </children></Pane>
                   <Label contentDisplay="RIGHT" layoutX="576.0" layoutY="24.0" prefHeight="25.0" prefWidth="58.0" text="Teléfono:" />
                   <TextField fx:id="telefonoTextField" layoutX="634.0" layoutY="24.0" />
-                  <Label layoutX="288.0" layoutY="24.0" prefHeight="25.0" prefWidth="104.0" text="Fecha Nacimiento:" />
-                  <DatePicker fx:id="fechaNacimientoDatePicker" layoutX="404.0" layoutY="24.0" prefHeight="25.0" prefWidth="149.0" />
+                  <Label layoutX="274.0" layoutY="24.0" prefHeight="25.0" prefWidth="119.0" text="Fecha de Nacimiento:" />
+                  <DatePicker fx:id="fechaNacimientoDatePicker" editable="false" layoutX="404.0" layoutY="24.0" prefHeight="25.0" prefWidth="149.0" />
                     <TableView fx:id="clientesTableView" layoutX="39.0" layoutY="209.0" prefHeight="200.0" prefWidth="707.0">
                         <columns>
                             <TableColumn fx:id="codigoClienteColumn" prefWidth="53.0" text="Codigo De Cliente" />
                             <TableColumn fx:id="nombreColumn" prefWidth="175.0" text="Nombre" />
                             <TableColumn fx:id="generoColumn" maxWidth="154.0" minWidth="0.0" prefWidth="85.0" text="Genero" />
-                        <TableColumn fx:id="fechaNacimientoColumn" maxWidth="188.0" minWidth="0.0" prefWidth="152.0" text="FechaNacimiento" />
+                        <TableColumn fx:id="fechaNacimientoColumn" maxWidth="188.0" minWidth="0.0" prefWidth="152.0" text="Fecha de Nacimiento" />
                         <TableColumn fx:id="duiColumn" maxWidth="264.0" minWidth="0.0" prefWidth="110.0" text="Dui" />
                         <TableColumn fx:id="telefonoColumn" maxWidth="281.0" minWidth="0.0" prefWidth="131.0" text="Telefono" />
                         </columns>

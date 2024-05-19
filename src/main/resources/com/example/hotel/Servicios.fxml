@@ -179,11 +179,11 @@
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="78.0" prefHeight="514.0" prefWidth="760.0" style="-fx-background-color: #5FBFC6;">
                <children>
-                  <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
-                  <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" text="Limpiar" />
-                  <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" text="Eliminar" />
-                  <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" text="Actualizar" />
-                  <TextField layoutX="172.0" layoutY="71.0" />
+                  <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarServicio" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
+                  <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
+                  <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarServicio" text="Eliminar" />
+                  <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarServicio" text="Actualizar" />
+                  <TextField fx:id="tipoServicioField" layoutX="172.0" layoutY="71.0" />
                   <Label contentDisplay="RIGHT" layoutX="51.0" layoutY="67.0" prefHeight="25.0" prefWidth="90.0" text="Tipo de Servicio:" />
                   <Label layoutX="426.0" layoutY="67.0" prefHeight="25.0" prefWidth="43.0" text="Costo:" />
                   <Pane layoutX="-20.0" layoutY="-81.0" prefHeight="73.0" prefWidth="806.0" style="-fx-background-color: #4A96A7;">
@@ -210,7 +210,7 @@
                            </textFill>
                             </Label>
                      </children></Pane>
-                  <TextField layoutX="481.0" layoutY="71.0" prefHeight="25.0" prefWidth="84.0" />
+                  <TextField fx:id="costoField" layoutX="481.0" layoutY="71.0" prefHeight="25.0" prefWidth="84.0" />
                </children></Pane>
             </children>
         </Pane>
@@ -220,11 +220,11 @@
                 <!-- <Image url="@../../../Imagenes/inicioimg.png" />-->
             </image>
         </ImageView>
-      <TableView layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
+      <TableView fx:id="tablaServicios" layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
         <columns>
-          <TableColumn prefWidth="126.00003051757812" text="Codigo De Servicio" />
-          <TableColumn prefWidth="514.0000305175781" text="Tipo De Servicio" />
-            <TableColumn minWidth="0.0" prefWidth="110.199951171875" text="Costo" />
+          <TableColumn fx:id="codigoServicioColumn" prefWidth="126.00003051757812" text="Codigo De Servicio" />
+          <TableColumn fx:id="tipoServicioColumn" prefWidth="447.0" text="Tipo De Servicio" />
+            <TableColumn fx:id="costoColumn" minWidth="0.0" prefWidth="179.0" text="Costo" />
         </columns>
       </TableView>
       <Label layoutX="21.0" layoutY="21.0" prefHeight="26.0" prefWidth="149.0" text="Administrador">

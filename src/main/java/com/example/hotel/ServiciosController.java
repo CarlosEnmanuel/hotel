@@ -18,10 +18,234 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
 
 public class ServiciosController {
 
+    @FXML
+    private TextField tipoServicioField;
 
+    @FXML
+    private TextField costoField;
+
+    @FXML
+    private TableView<Servicio> tablaServicios;
+
+    @FXML
+    private TableColumn<Servicio, Integer> codigoServicioColumn;
+
+    @FXML
+    private TableColumn<Servicio, String> tipoServicioColumn;
+
+    @FXML
+    private TableColumn<Servicio, String> costoColumn;
+
+    private ObservableList<Servicio> servicios = FXCollections.observableArrayList();
+
+    public void initialize() {
+        codigoServicioColumn.setCellValueFactory(new PropertyValueFactory<>("codigoServicio"));
+        tipoServicioColumn.setCellValueFactory(new PropertyValueFactory<>("tipoServicio"));
+        costoColumn.setCellValueFactory(new PropertyValueFactory<>("costo"));
+
+        tablaServicios.setItems(servicios);
+
+        cargarServiciosDesdeBaseDeDatos();
+    }
+
+    private void cargarServiciosDesdeBaseDeDatos() {
+        try {
+            Connection conn = Conexion.getConnection();
+            String sql = "SELECT * FROM servicios";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            servicios.clear();
+
+            while (rs.next()) {
+                int codigo = rs.getInt("codigoServicio");
+                String tipo = rs.getString("tipoServicio");
+                String costo = rs.getString("costo");
+
+                Servicio servicio = new Servicio(codigo, tipo, costo);
+                servicios.add(servicio);
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+        }
+    }
+
+    @FXML
+    void guardarServicio() {
+        String tipoServicio = tipoServicioField.getText();
+        String costo = costoField.getText();
+
+        if (tipoServicio.isEmpty() || costo.isEmpty()) {
+            mostrarAlerta("Error", "Todos los campos son obligatorios.");
+            return;
+        }
+
+        Servicio servicio = new Servicio(0, tipoServicio, costo);
+        if (guardarServicioEnBD(servicio)) {
+            mostrarAlerta("Servicio Guardado", "El servicio se ha guardado correctamente en la base de datos.");
+        } else {
+            mostrarAlerta("Error", "No se pudo guardar el servicio en la base de datos.");
+        }
+
+        limpiarCampos();
+        cargarServiciosDesdeBaseDeDatos();
+    }
+
+    private boolean guardarServicioEnBD(Servicio servicio) {
+        try {
+            Connection conn = Conexion.getConnection();
+            String sql = "INSERT INTO servicios (tipoServicio, costo) VALUES (?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, servicio.getTipoServicio());
+            pstmt.setString(2, servicio.getCosto());
+
+            int filasAfectadas = pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
+
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+            return false;
+        }
+    }
+
+    private boolean actualizarServicioEnBD(Servicio servicio) {
+        try {
+            Connection conn = Conexion.getConnection();
+            String sql = "UPDATE servicios SET tipoServicio = ?, costo = ? WHERE codigoServicio = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, servicio.getTipoServicio());
+            pstmt.setString(2, servicio.getCosto());
+            pstmt.setInt(3, servicio.getCodigoServicio());
+
+            int filasAfectadas = pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
+
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+            return false;
+        }
+    }
+
+    @FXML
+    void actualizarServicio() {
+        Servicio servicioSeleccionado = tablaServicios.getSelectionModel().getSelectedItem();
+
+        if (servicioSeleccionado == null) {
+            mostrarAlerta("Error", "Por favor, selecciona un servicio para actualizar.");
+            return;
+        }
+
+        String tipoServicio = tipoServicioField.getText();
+        String costo = costoField.getText();
+
+        if (tipoServicio.isEmpty() || costo.isEmpty()) {
+            mostrarAlerta("Error", "Todos los campos son obligatorios.");
+            return;
+        }
+
+        servicioSeleccionado.setTipoServicio(tipoServicio);
+        servicioSeleccionado.setCosto(costo);
+
+        if (actualizarServicioEnBD(servicioSeleccionado)) {
+            mostrarAlerta("Servicio Actualizado", "El servicio se ha actualizado correctamente en la base de datos.");
+        } else {
+            mostrarAlerta("Error", "No se pudo actualizar el servicio en la base de datos.");
+        }
+
+        limpiarCampos();
+        cargarServiciosDesdeBaseDeDatos();
+    }
+
+    @FXML
+    void eliminarServicio() {
+        Servicio servicioSeleccionado = tablaServicios.getSelectionModel().getSelectedItem();
+
+        if (servicioSeleccionado == null) {
+            mostrarAlerta("Error", "Por favor, selecciona un servicio para eliminar.");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación de eliminación");
+        alert.setHeaderText("¿Estás seguro de que deseas eliminar este servicio?");
+        alert.setContentText("Esta acción no se puede deshacer.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                Connection conn = Conexion.getConnection();
+                String sql = "DELETE FROM servicios WHERE codigoServicio = ?";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, servicioSeleccionado.getCodigoServicio());
+
+                int filasAfectadas = pstmt.executeUpdate();
+
+                pstmt.close();
+                conn.close();
+
+                if (filasAfectadas > 0) {
+                    servicios.remove(servicioSeleccionado);
+                    mostrarAlerta("Servicio Eliminado", "El servicio se ha eliminado correctamente.");
+                } else {
+                    mostrarAlerta("Error", "No se pudo eliminar el servicio.");
+                }
+            } catch (SQLException e) {
+                mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+            }
+        }
+    }
+
+    @FXML
+    void limpiarCampos() {
+        tipoServicioField.clear();
+        costoField.clear();
+    }
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
 
     @FXML
     private void irAInicio(ActionEvent event) throws IOException {
