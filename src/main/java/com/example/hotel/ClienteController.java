@@ -1,8 +1,8 @@
 package com.example.hotel;
 
-
-
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,13 +24,12 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
 
-
 public class ClienteController {
 
     @FXML
     private TextField nombreTextField;
     @FXML
-    private ComboBox generoComboBox;
+    private ComboBox<String> generoComboBox;
     @FXML
     private TextField telefonoTextField;
     @FXML
@@ -63,7 +62,10 @@ public class ClienteController {
 
     private ObservableList<Cliente> clientes = FXCollections.observableArrayList();
 
+    private boolean isUpdatingTelefono = false;
+    private boolean isUpdatingDui = false;
 
+    @FXML
     public void initialize() {
         // Configurar las celdas de la tabla para mostrar los valores de los atributos de Cliente
         codigoClienteColumn.setCellValueFactory(new PropertyValueFactory<>("codigoUsuario"));
@@ -91,8 +93,46 @@ public class ClienteController {
             };
         });
 
-        cargarClientesDesdeBaseDeDatos();
+        // Agregar los listeners para formatear los campos en tiempo real
+        telefonoTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!isUpdatingTelefono) {
+                isUpdatingTelefono = true;
+                Platform.runLater(() -> {
+                    telefonoTextField.setText(formatearTelefono(newValue));
+                    telefonoTextField.positionCaret(telefonoTextField.getText().length());
+                    isUpdatingTelefono = false;
+                });
+            }
+        });
 
+        duiTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!isUpdatingDui) {
+                isUpdatingDui = true;
+                Platform.runLater(() -> {
+                    duiTextField.setText(formatearDui(newValue));
+                    duiTextField.positionCaret(duiTextField.getText().length());
+                    isUpdatingDui = false;
+                });
+            }
+        });
+
+        cargarClientesDesdeBaseDeDatos();
+    }
+
+    private String formatearTelefono(String telefono) {
+        telefono = telefono.replaceAll("[^0-9]", ""); // Eliminar caracteres no numéricos
+        if (telefono.length() > 4) {
+            telefono = telefono.substring(0, 4) + '-' + telefono.substring(4);
+        }
+        return telefono;
+    }
+
+    private String formatearDui(String dui) {
+        dui = dui.replaceAll("[^0-9]", ""); // Eliminar caracteres no numéricos
+        if (dui.length() > 8) {
+            dui = dui.substring(0, 8) + '-' + dui.substring(8);
+        }
+        return dui;
     }
 
     private void cargarClientesDesdeBaseDeDatos() {
@@ -129,13 +169,11 @@ public class ClienteController {
         }
     }
 
-
-
     // Método para guardar un cliente
     @FXML
     void guardarCliente() {
         String nombre = nombreTextField.getText();
-        String genero = (generoComboBox.getValue() != null) ? generoComboBox.getValue().toString() : "";
+        String genero = (generoComboBox.getValue() != null) ? generoComboBox.getValue() : "";
         String telefono = telefonoTextField.getText();
         String dui = duiTextField.getText();
         LocalDate fechaNacimiento = fechaNacimientoDatePicker.getValue();
@@ -147,12 +185,12 @@ public class ClienteController {
         }
 
         // Validar el formato de Dui y teléfono
-        if (!dui.matches("^[0-9 -]+$")) {
+        if (!dui.matches("^[0-9-]+$")) {
             mostrarAlerta("Error", "El campo de Dui debe contener solo números.");
             return;
         }
 
-        if (!telefono.matches("^[0-9 -]+$")) {
+        if (!telefono.matches("^[0-9-]+$")) {
             mostrarAlerta("Error", "El campo de teléfono debe contener solo números.");
             return;
         }
@@ -170,7 +208,6 @@ public class ClienteController {
         cargarClientesDesdeBaseDeDatos();
     }
 
-    // Método para guardar un cliente en la base de datos
     // Método para guardar un cliente en la base de datos
     private boolean guardarClienteEnBD(Cliente cliente) {
         try {
@@ -195,15 +232,11 @@ public class ClienteController {
             mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
             return false;
         }
-
     }
-
-
-
 
     // Método para eliminar un cliente
     @FXML
-    private void eliminarCliente() {
+    void eliminarCliente() {
         // Obtener el cliente seleccionado en la tabla
         Cliente clienteSeleccionado = clientesTableView.getSelectionModel().getSelectedItem();
 
@@ -213,46 +246,47 @@ public class ClienteController {
             return;
         }
 
-        // Mostrar un cuadro de diálogo de confirmación
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmación de eliminación");
-        alert.setHeaderText("¿Estás seguro de que deseas eliminar este cliente?");
-        alert.setContentText("Esta acción no se puede deshacer.");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            // El usuario seleccionó OK, proceder con la eliminación del cliente
-
-            try {
-                Connection conn = Conexion.getConnection();
-                String sql = "DELETE FROM cliente WHERE codigoUsuario = ?";
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, clienteSeleccionado.getCodigoUsuario());
-
-                int filasAfectadas = pstmt.executeUpdate();
-
-                pstmt.close();
-                conn.close();
-
-                // Verificar si se eliminó correctamente el cliente
-                if (filasAfectadas > 0) {
-                    // Eliminar el cliente de la lista observable
-                    clientes.remove(clienteSeleccionado);
-                    mostrarAlerta("Cliente Eliminado", "El cliente se ha eliminado correctamente.");
-                } else {
-                    mostrarAlerta("Error", "No se pudo eliminar el cliente.");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+        // Confirmar la eliminación del cliente
+        Alert confirmacion = new Alert(AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar Eliminación");
+        confirmacion.setHeaderText(null);
+        confirmacion.setContentText("¿Estás seguro de que deseas eliminar este cliente?");
+        Optional<ButtonType> resultado = confirmacion.showAndWait();
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            // Eliminar el cliente de la base de datos
+            if (eliminarClienteDeBD(clienteSeleccionado.getCodigoUsuario())) {
+                clientes.remove(clienteSeleccionado);
+                mostrarAlerta("Cliente Eliminado", "El cliente ha sido eliminado correctamente.");
+            } else {
+                mostrarAlerta("Error", "No se pudo eliminar el cliente de la base de datos.");
             }
         }
     }
 
+    // Método para eliminar un cliente de la base de datos
+    private boolean eliminarClienteDeBD(int codigoCliente) {
+        try {
+            Connection conn = Conexion.getConnection();
+            String sql = "DELETE FROM cliente WHERE codigoUsuario = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, codigoCliente);
+
+            int filasAfectadas = pstmt.executeUpdate();
+
+            pstmt.close();
+            conn.close();
+
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+            return false;
+        }
+    }
 
     // Método para actualizar un cliente
     @FXML
-    private void actualizarCliente() {
+    void actualizarCliente() {
         // Obtener el cliente seleccionado en la tabla
         Cliente clienteSeleccionado = clientesTableView.getSelectionModel().getSelectedItem();
 
@@ -262,81 +296,82 @@ public class ClienteController {
             return;
         }
 
-        // Obtener los nuevos datos del cliente desde los campos de entrada
-        String nuevoNombre = nombreTextField.getText();
-        String nuevoGenero = (generoComboBox.getValue() != null) ? generoComboBox.getValue().toString() : "";
-        String nuevoTelefono = telefonoTextField.getText();
-        String nuevoDui = duiTextField.getText();
-        LocalDate nuevaFechaNacimiento = fechaNacimientoDatePicker.getValue();
+        // Obtener los datos actualizados de los campos de entrada
+        String nombre = nombreTextField.getText();
+        String genero = (generoComboBox.getValue() != null) ? generoComboBox.getValue() : "";
+        String telefono = telefonoTextField.getText();
+        String dui = duiTextField.getText();
+        LocalDate fechaNacimiento = fechaNacimientoDatePicker.getValue();
 
         // Validar campos vacíos
-        if (nuevoNombre.isEmpty() || nuevoGenero.isEmpty() || nuevoTelefono.isEmpty() || nuevoDui.isEmpty() || nuevaFechaNacimiento == null) {
+        if (nombre.isEmpty() || genero.isEmpty() || telefono.isEmpty() || dui.isEmpty() || fechaNacimiento == null) {
             mostrarAlerta("Error", "Todos los campos son obligatorios.");
             return;
         }
 
         // Validar el formato de Dui y teléfono
-        if (!nuevoDui.matches("^[0-9 -]+$")) {
+        if (!dui.matches("^[0-9-]+$")) {
             mostrarAlerta("Error", "El campo de Dui debe contener solo números.");
             return;
         }
 
-        if (!nuevoTelefono.matches("^[0-9 -]+$")) {
+        if (!telefono.matches("^[0-9-]+$")) {
             mostrarAlerta("Error", "El campo de teléfono debe contener solo números.");
             return;
         }
 
-        // Crear un objeto Cliente con los nuevos datos
-        Cliente clienteActualizado = new Cliente(
-                clienteSeleccionado.getCodigoUsuario(),
-                nuevoNombre,
-                nuevoGenero,
-                nuevaFechaNacimiento,
-                nuevoDui,
-                nuevoTelefono
-        );
+        // Actualizar los atributos del cliente seleccionado
+        clienteSeleccionado.setNombreUsuario(nombre);
+        clienteSeleccionado.setGenero(genero);
+        clienteSeleccionado.setTelefono(telefono);
+        clienteSeleccionado.setDui(dui);
+        clienteSeleccionado.setFechaNacimiento(fechaNacimiento);
 
+        // Actualizar el cliente en la base de datos
+        if (actualizarClienteEnBD(clienteSeleccionado)) {
+            mostrarAlerta("Cliente Actualizado", "El cliente se ha actualizado correctamente en la base de datos.");
+        } else {
+            mostrarAlerta("Error", "No se pudo actualizar el cliente en la base de datos.");
+        }
+
+        limpiarCampos();
+        cargarClientesDesdeBaseDeDatos();
+    }
+
+    // Método para actualizar un cliente en la base de datos
+    private boolean actualizarClienteEnBD(Cliente cliente) {
         try {
             Connection conn = Conexion.getConnection();
             String sql = "UPDATE cliente SET nombreUsuario = ?, genero = ?, fechaNacimiento = ?, dui = ?, telefono = ? WHERE codigoUsuario = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, clienteActualizado.getNombreUsuario());
-            pstmt.setString(2, clienteActualizado.getGenero());
-            pstmt.setObject(3, clienteActualizado.getFechaNacimiento());
-            pstmt.setString(4, clienteActualizado.getDui());
-            pstmt.setString(5, clienteActualizado.getTelefono());
-            pstmt.setInt(6, clienteActualizado.getCodigoUsuario());
+            pstmt.setString(1, cliente.getNombreUsuario());
+            pstmt.setString(2, cliente.getGenero());
+            pstmt.setObject(3, cliente.getFechaNacimiento());
+            pstmt.setString(4, cliente.getDui());
+            pstmt.setString(5, cliente.getTelefono());
+            pstmt.setInt(6, cliente.getCodigoUsuario());
 
             int filasAfectadas = pstmt.executeUpdate();
 
             pstmt.close();
             conn.close();
 
-            // Verificar si se actualizó correctamente el cliente
-            if (filasAfectadas > 0) {
-                // Actualizar el cliente en la lista observable
-                int indiceCliente = clientes.indexOf(clienteSeleccionado);
-                clientes.set(indiceCliente, clienteActualizado);
-                mostrarAlerta("Cliente Actualizado", "El cliente se ha actualizado correctamente.");
-            } else {
-                mostrarAlerta("Error", "No se pudo actualizar el cliente.");
-            }
+            return filasAfectadas > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
+            return false;
         }
-
-        limpiarCampos();
     }
 
-
-    // Método para limpiar los campos de entrada
+    // Método para limpiar los campos del formulario
     @FXML
-    private void limpiarCampos() {
+    void limpiarCampos() {
         nombreTextField.clear();
+        generoComboBox.setValue(null);
         telefonoTextField.clear();
         duiTextField.clear();
-        fechaNacimientoDatePicker.setValue(null); // Limpiar también el valor seleccionado en el DatePicker
+        fechaNacimientoDatePicker.setValue(null);
     }
 
 

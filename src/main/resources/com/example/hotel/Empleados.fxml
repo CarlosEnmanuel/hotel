@@ -218,9 +218,9 @@
                         <TextField fx:id="telefonoTextField" layoutX="409.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
                   <DatePicker fx:id="fechaNacimientoDatePicker" editable="false" layoutX="478.0" layoutY="29.0" />
                   <Label contentDisplay="RIGHT" layoutX="351.0" layoutY="29.0" prefHeight="25.0" prefWidth="120.0" text="Fecha de Nacimiento:" />
-                  <TextField fx:id="duiTextField" layoutX="246.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
-                  <Label contentDisplay="RIGHT" layoutX="213.0" layoutY="91.0" prefHeight="25.0" prefWidth="30.0" text="DUI:" />
-                  <Label layoutX="353.0" layoutY="91.0" prefHeight="25.0" prefWidth="55.0" text="Telefono:" />
+                  <TextField fx:id="duiTextField" layoutX="246.0" layoutY="91.0" prefHeight="25.0" prefWidth="95.0" />
+                  <Label contentDisplay="RIGHT" layoutX="213.0" layoutY="91.0" prefHeight="25.0" prefWidth="30.0" text="Dui:" />
+                  <Label layoutX="353.0" layoutY="91.0" prefHeight="25.0" prefWidth="55.0" text="Teléfono:" />
                   <Label layoutX="512.0" layoutY="91.0" prefHeight="25.0" prefWidth="43.0" text="Cargo:" />
                   <TextField fx:id="cargoTextField" layoutX="565.0" layoutY="91.0" prefHeight="25.0" prefWidth="84.0" />
                   <ComboBox fx:id="generoComboBox" layoutX="72.0" layoutY="91.0" prefHeight="25.0" prefWidth="128.0" promptText="Seleccionar" />
@@ -240,7 +240,7 @@
                 <TableColumn fx:id="fechaNacimientoColumn" minWidth="0.0" prefWidth="124.0" text="Fecha de Nacimiento" />
             <TableColumn fx:id="generoColumn" minWidth="0.0" prefWidth="91.0" text="Genero" />
             <TableColumn fx:id="duiColumn" minWidth="0.0" prefWidth="71.0" text="Dui" />
-            <TableColumn fx:id="telefonoColumn" minWidth="0.0" prefWidth="82.0" text="Telefono" />
+            <TableColumn fx:id="telefonoColumn" minWidth="0.0" prefWidth="82.0" text="Teléfono" />
             <TableColumn fx:id="cargoColumn" minWidth="0.0" prefWidth="82.0" text="Cargo" />
             </columns>
         </TableView>

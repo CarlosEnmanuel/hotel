@@ -55,7 +55,6 @@ public class EmpleadosController {
     @FXML
     private TableColumn<Empleado, String> cargoColumn;
 
-
     @FXML
     private Button guardarEmpleadoButton;
     @FXML
@@ -66,6 +65,9 @@ public class EmpleadosController {
     private Button limpiarEmpleadoButton;
 
     private ObservableList<Empleado> empleados = FXCollections.observableArrayList();
+
+    private boolean isUpdatingTelefono = false;
+    private boolean isUpdatingDui = false;
 
     public void initialize() {
         codigoEmpleadoColumn.setCellValueFactory(new PropertyValueFactory<>("codigoEmpleado"));
@@ -80,7 +82,60 @@ public class EmpleadosController {
 
         empleadosTableView.setItems(empleados);
 
+        // Agregar listeners para formatear los campos en tiempo real
+        telefonoTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!isUpdatingTelefono) {
+                isUpdatingTelefono = true;
+                Platform.runLater(() -> {
+                    telefonoTextField.setText(formatPhoneNumber(newValue));
+                    telefonoTextField.positionCaret(telefonoTextField.getText().length());
+                    isUpdatingTelefono = false;
+                });
+            }
+        });
+
+        duiTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!isUpdatingDui) {
+                isUpdatingDui = true;
+                Platform.runLater(() -> {
+                    duiTextField.setText(formatDuiNumber(newValue));
+                    duiTextField.positionCaret(duiTextField.getText().length());
+                    isUpdatingDui = false;
+                });
+            }
+        });
+
+        // Limitar los campos de nombres y cargo a letras
+        nombresEmpleadoTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[\\p{L} ]*")) {
+                nombresEmpleadoTextField.setText(newValue.replaceAll("[^\\p{L} ]", ""));
+            }
+        });
+
+        cargoTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("[\\p{L} ]*")) {
+                cargoTextField.setText(newValue.replaceAll("[^\\p{L} ]", ""));
+            }
+        });
+
+
         cargarEmpleadosDesdeBaseDeDatos();
+    }
+
+    private String formatPhoneNumber(String phoneNumber) {
+        phoneNumber = phoneNumber.replaceAll("[^0-9]", ""); // Remove non-numeric characters
+        if (phoneNumber.length() > 4) {
+            phoneNumber = phoneNumber.substring(0, 4) + '-' + phoneNumber.substring(4);
+        }
+        return phoneNumber;
+    }
+
+    private String formatDuiNumber(String dui) {
+        dui = dui.replaceAll("[^0-9]", ""); // Remove non-numeric characters
+        if (dui.length() > 8) {
+            dui = dui.substring(0, 8) + '-' + dui.substring(8);
+        }
+        return dui;
     }
 
     private void cargarEmpleadosDesdeBaseDeDatos() {
@@ -113,6 +168,7 @@ public class EmpleadosController {
             mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
         }
     }
+
 
     @FXML
     void guardarEmpleado() {
