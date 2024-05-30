@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ReservacionesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ReservacionesController">
     <children>
         <!-- Panel de navegación -->
         <Pane layoutX="-5.0" layoutY="72.0" prefHeight="530.0" prefWidth="200.0" style="-fx-background-color: #4A96A7;">
@@ -182,10 +182,10 @@
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="78.0" prefHeight="514.0" prefWidth="760.0" style="-fx-background-color: #5FBFC6;">
                     <children>
-                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
-                        <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" text="Limpiar" />
-                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" text="Eliminar" />
-                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" text="Actualizar" />
+                        <Button fx:id="guardarButton" layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarReservacion" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
+                        <Button fx:id="limpiarButton" layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
+                        <Button fx:id="eliminarButton" layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarReservacion" text="Eliminar" />
+                        <Button fx:id="actualizarButton" layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarReservacion" text="Actualizar" />
                         <Label contentDisplay="RIGHT" layoutX="54.0" layoutY="24.0" prefHeight="25.0" prefWidth="49.0" text="Cliente:" />
                         <Label layoutX="303.0" layoutY="24.0" prefHeight="25.0" prefWidth="58.0" text="Servicio:" />
                         <Pane layoutX="-20.0" layoutY="-81.0" prefHeight="73.0" prefWidth="806.0" style="-fx-background-color: #4A96A7;">
@@ -212,14 +212,15 @@
                                     </textFill>
                                 </Label>
                             </children></Pane>
-                  <ComboBox layoutX="103.0" layoutY="24.0" prefWidth="150.0" />
+                        <ComboBox fx:id="clienteComboBox" layoutX="103.0" layoutY="24.0" prefWidth="150.0" />
+                        <ComboBox fx:id="habitacionComboBox" layoutX="103.0" layoutY="71.0" prefWidth="150.0" />
+                        <ComboBox fx:id="servicioComboBox" layoutX="361.0" layoutY="24.0" prefWidth="150.0" />
+                        <ComboBox fx:id="horarioComboBox" layoutX="361.0" layoutY="71.0" prefWidth="150.0" />
+                        <ComboBox fx:id="frecuenciaComboBox" layoutX="594.0" layoutY="24.0" prefWidth="150.0" />
                   <Label contentDisplay="RIGHT" layoutX="35.0" layoutY="71.0" prefHeight="25.0" prefWidth="68.0" text="Habitación:" />
-                  <ComboBox layoutX="103.0" layoutY="71.0" prefWidth="150.0" />
-                  <ComboBox layoutX="361.0" layoutY="24.0" prefWidth="150.0" />
-                  <Label layoutX="305.0" layoutY="71.0" prefHeight="25.0" prefWidth="55.0" text="Horario:" />
-                  <ComboBox layoutX="361.0" layoutY="71.0" prefWidth="150.0" />
-                  <Label layoutX="526.0" layoutY="24.0" prefHeight="25.0" prefWidth="68.0" text="Frecuencia:" />
-                  <ComboBox layoutX="594.0" layoutY="24.0" prefWidth="150.0" />
+                  <Label contentDisplay="RIGHT" layoutX="288.0" layoutY="59.0" prefHeight="25.0" prefWidth="55.0" text="Fecha de" />
+                  <Label contentDisplay="RIGHT" layoutX="526.0" layoutY="24.0" prefHeight="25.0" prefWidth="68.0" text="Frecuencia:" />
+                  <Label contentDisplay="RIGHT" layoutX="281.0" layoutY="75.0" prefHeight="25.0" prefWidth="68.0" text="Reservación:" />
                     </children></Pane>
             </children>
         </Pane>
@@ -229,14 +230,15 @@
                 <!-- <Image url="@../../../Imagenes/inicioimg.png" />-->
             </image>
         </ImageView>
-        <TableView layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
+        <TableView fx:id="reservacionesTableView" layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
             <columns>
-                <TableColumn prefWidth="64.0" text="Codigo De Reservacion" />
-                <TableColumn prefWidth="162.0" text="Cliente" />
-                <TableColumn maxWidth="189.0" minWidth="0.0" prefWidth="127.0" text="Habitación" />
-            <TableColumn maxWidth="204.0" minWidth="0.0" prefWidth="131.0" text="Servicio" />
-            <TableColumn maxWidth="254.0" minWidth="0.0" prefWidth="136.0" text="Horario" />
-            <TableColumn maxWidth="331.0" minWidth="0.0" prefWidth="128.0" text="Frecuencia" />
+                <TableColumn fx:id="coodigoReservacionColumn" prefWidth="64.0" text="Codigo De Reservacion" />
+                <TableColumn fx:id="nombreClienteColumn" prefWidth="164.0" text="Cliente" />
+                <TableColumn fx:id="tipoHabitacionColumn" maxWidth="189.0" minWidth="0.0" prefWidth="103.0" text="Habitación" />
+                <TableColumn fx:id="tipoServicioColumn" maxWidth="204.0" minWidth="0.0" prefWidth="132.0" text="Servicio" />
+                <TableColumn fx:id="horarioColumn" maxWidth="254.0" minWidth="0.0" prefWidth="130.0" text="Horario" />
+                <TableColumn fx:id="frecuenciasColumn" maxWidth="331.0" minWidth="0.0" prefWidth="79.0" text="Frecuencia" />
+                <TableColumn fx:id="totalColumn" maxWidth="350.0" minWidth="0.0" prefWidth="76.0" text="Total" />
             </columns>
         </TableView>
         <Label layoutX="21.0" layoutY="21.0" prefHeight="26.0" prefWidth="149.0" text="Administrador">
