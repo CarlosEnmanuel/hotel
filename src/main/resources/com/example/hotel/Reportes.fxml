@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.effect.Reflection?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ReportesController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #5FBFC6;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.ReportesController">
     <children>
         <!-- Panel de navegación -->
         <Pane layoutX="-5.0" layoutY="72.0" prefHeight="530.0" prefWidth="200.0" style="-fx-background-color: #4A96A7;">
@@ -180,7 +175,7 @@
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="78.0" prefHeight="514.0" prefWidth="760.0" style="-fx-background-color: #5FBFC6;">
                     <children>
-                        <Button layoutX="111.0" layoutY="66.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="116.0" text="Clientes">
+                        <Button layoutX="111.0" layoutY="66.0" mnemonicParsing="false" onAction="#generarReportecita" prefHeight="39.0" prefWidth="116.0" text="Clientes">
                         
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -216,7 +211,7 @@
                                     </textFill>
                                 </Label>
                             </children></Pane>
-                  <Button layoutX="312.0" layoutY="66.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="116.0" text="Reservaciones">
+                  <Button layoutX="312.0" layoutY="66.0" mnemonicParsing="false" onAction="#generarReportereservaciones" prefHeight="39.0" prefWidth="116.0" text="Reservaciones">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -228,7 +223,7 @@
                         </Reflection>
                      </effect>
                   </Button>
-                  <Button layoutX="506.0" layoutY="66.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="116.0" text="Empleados">
+                  <Button layoutX="506.0" layoutY="66.0" mnemonicParsing="false" onAction="#generarReporteempleados" prefHeight="39.0" prefWidth="116.0" text="Empleados">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -240,7 +235,7 @@
                         </Reflection>
                      </effect>
                   </Button>
-                  <Button layoutX="111.0" layoutY="225.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="116.0" text="Horarios">
+                  <Button layoutX="111.0" layoutY="225.0" mnemonicParsing="false" onAction="#generarReportehorarios" prefHeight="39.0" prefWidth="116.0" text="Horarios">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -252,7 +247,7 @@
                         </Reflection>
                      </effect>
                   </Button>
-                  <Button layoutX="322.0" layoutY="225.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="116.0" text="Habitaciones">
+                  <Button layoutX="322.0" layoutY="225.0" mnemonicParsing="false" onAction="#generarReportehabitaciones" prefHeight="39.0" prefWidth="116.0" text="Habitaciones">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -264,7 +259,7 @@
                         </Reflection>
                      </effect>
                   </Button>
-                  <Button layoutX="506.0" layoutY="225.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="116.0" text="Servicios">
+                  <Button layoutX="506.0" layoutY="225.0" mnemonicParsing="false" onAction="#generarReporteservicios" prefHeight="39.0" prefWidth="116.0" text="Servicios">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -276,7 +271,7 @@
                         </Reflection>
                      </effect>
                   </Button>
-                  <Button layoutX="325.0" layoutY="368.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="116.0" text="Proveedores">
+                  <Button layoutX="325.0" layoutY="368.0" mnemonicParsing="false" onAction="#generarReporteproveedores" prefHeight="39.0" prefWidth="116.0" text="Proveedores">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
