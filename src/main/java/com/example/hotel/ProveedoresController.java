@@ -130,12 +130,13 @@ public class ProveedoresController {
     private boolean guardarProveedorEnBD(Proveedores proveedores) {
         try {
             Connection conn = Conexion.getConnection();
-            String sql = "INSERT INTO proveedores (nombreEmpresa, telefono, direccion, nombreContacto) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO proveedores (nombreEmpresa, telefono, direccion, nombreContacto, codigoSucursal) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, proveedores.getNombreEmpresa());
             pstmt.setString(2, proveedores.getTelefono());
             pstmt.setString(3, proveedores.getDireccion());
             pstmt.setString(4, proveedores.getNombreContacto());
+            pstmt.setInt(5, 1); // Establecer el valor de codigoSucursal a 1
 
             int filasAfectadas = pstmt.executeUpdate();
 
@@ -148,6 +149,7 @@ public class ProveedoresController {
             return false;
         }
     }
+
 
 
 

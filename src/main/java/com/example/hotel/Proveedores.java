@@ -1,7 +1,6 @@
 package com.example.hotel;
 
 public class Proveedores {
-
     private int codigoProveedor;
     private String nombreEmpresa;
     private String telefono;
@@ -9,15 +8,16 @@ public class Proveedores {
     private String nombreContacto;
     private int codigoSucursal;
 
-
     public Proveedores(int codigoProveedor, String nombreEmpresa, String telefono, String direccion, String nombreContacto) {
         this.codigoProveedor = codigoProveedor;
         this.nombreEmpresa = nombreEmpresa;
         this.telefono = telefono;
         this.direccion = direccion;
         this.nombreContacto = nombreContacto;
-        this.codigoSucursal = codigoSucursal;
+        this.codigoSucursal = 1; // Siempre establecer a 1
     }
+
+    // Getters y setters
 
     public int getCodigoProveedor() {
         return codigoProveedor;
@@ -67,3 +67,4 @@ public class Proveedores {
         this.codigoSucursal = codigoSucursal;
     }
 }
+
