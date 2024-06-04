@@ -98,8 +98,12 @@ public class ClienteController {
             if (!isUpdatingTelefono) {
                 isUpdatingTelefono = true;
                 Platform.runLater(() -> {
-                    telefonoTextField.setText(formatearTelefono(newValue));
-                    telefonoTextField.positionCaret(telefonoTextField.getText().length());
+                    if (newValue.length() > 9) {
+                        telefonoTextField.setText(oldValue);
+                    } else {
+                        telefonoTextField.setText(formatearTelefono(newValue));
+                        telefonoTextField.positionCaret(telefonoTextField.getText().length());
+                    }
                     isUpdatingTelefono = false;
                 });
             }
@@ -109,20 +113,36 @@ public class ClienteController {
             if (!isUpdatingDui) {
                 isUpdatingDui = true;
                 Platform.runLater(() -> {
-                    duiTextField.setText(formatearDui(newValue));
-                    duiTextField.positionCaret(duiTextField.getText().length());
+                    if (newValue.length() > 10) {
+                        duiTextField.setText(oldValue);
+                    } else {
+                        duiTextField.setText(formatearDui(newValue));
+                        duiTextField.positionCaret(duiTextField.getText().length());
+                    }
                     isUpdatingDui = false;
                 });
+            }
+        });
+
+        nombreTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 32) {
+                nombreTextField.setText(oldValue);
+            } else if (!newValue.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*")) {
+                nombreTextField.setText(oldValue);
             }
         });
 
         cargarClientesDesdeBaseDeDatos();
     }
 
+
     private String formatearTelefono(String telefono) {
         telefono = telefono.replaceAll("[^0-9]", ""); // Eliminar caracteres no numéricos
         if (telefono.length() > 4) {
             telefono = telefono.substring(0, 4) + '-' + telefono.substring(4);
+        }
+        if (telefono.length() > 9) {
+            telefono = telefono.substring(0, 9);
         }
         return telefono;
     }
@@ -132,8 +152,12 @@ public class ClienteController {
         if (dui.length() > 8) {
             dui = dui.substring(0, 8) + '-' + dui.substring(8);
         }
+        if (dui.length() > 10) {
+            dui = dui.substring(0, 10);
+        }
         return dui;
     }
+
 
     private void cargarClientesDesdeBaseDeDatos() {
         try {
@@ -170,6 +194,7 @@ public class ClienteController {
     }
 
     // Método para guardar un cliente
+    // Método para guardar un cliente
     @FXML
     void guardarCliente() {
         String nombre = nombreTextField.getText();
@@ -184,14 +209,20 @@ public class ClienteController {
             return;
         }
 
-        // Validar el formato de Dui y teléfono
-        if (!dui.matches("^[0-9-]+$")) {
-            mostrarAlerta("Error", "El campo de Dui debe contener solo números.");
+        // Validar el formato del nombre
+        if (nombre.length() > 50 || !nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]*")) {
+            mostrarAlerta("Error", "El campo de nombre debe contener solo letras y un máximo de 50 caracteres.");
             return;
         }
 
-        if (!telefono.matches("^[0-9-]+$")) {
-            mostrarAlerta("Error", "El campo de teléfono debe contener solo números.");
+        // Validar el formato de Dui y teléfono
+        if (!dui.matches("^[0-9]{8}-[0-9]{1}$")) {
+            mostrarAlerta("Error", "El campo de Dui debe contener exactamente 9 números y un guión.");
+            return;
+        }
+
+        if (!telefono.matches("^[0-9]{4}-[0-9]{4}$")) {
+            mostrarAlerta("Error", "El campo de teléfono debe contener exactamente 8 números y un guión.");
             return;
         }
 
@@ -207,6 +238,8 @@ public class ClienteController {
         limpiarCampos();
         cargarClientesDesdeBaseDeDatos();
     }
+
+
 
     // Método para guardar un cliente en la base de datos
     private boolean guardarClienteEnBD(Cliente cliente) {

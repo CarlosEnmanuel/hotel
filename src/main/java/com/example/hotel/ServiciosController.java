@@ -73,6 +73,24 @@ public class ServiciosController {
 
         tablaServicios.setItems(servicios);
 
+        // Validación en tiempo real para tipoServicioField
+        tipoServicioField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 32) {
+                tipoServicioField.setText(oldValue);
+            } else if (!newValue.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+                tipoServicioField.setText(oldValue);
+            }
+        });
+
+        // Validación en tiempo real para costoField
+        costoField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 8) {
+                costoField.setText(oldValue);
+            } else if (!newValue.matches("\\d*")) {
+                costoField.setText(oldValue);
+            }
+        });
+
         cargarServiciosDesdeBaseDeDatos();
     }
 
@@ -110,6 +128,17 @@ public class ServiciosController {
 
         if (tipoServicio.isEmpty() || costo.isEmpty()) {
             mostrarAlerta("Error", "Todos los campos son obligatorios.");
+            return;
+        }
+
+        // Validación de formato
+        if (tipoServicio.length() > 32 || !tipoServicio.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+            mostrarAlerta("Error", "El campo de tipo de servicio debe contener solo letras y un máximo de 32 caracteres.");
+            return;
+        }
+
+        if (costo.length() > 8 || !costo.matches("\\d*")) {
+            mostrarAlerta("Error", "El campo de costo debe contener solo números y un máximo de 8 caracteres.");
             return;
         }
 

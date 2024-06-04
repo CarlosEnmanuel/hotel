@@ -51,6 +51,32 @@ public class HabitacionesController {
 
         tablaHabitaciones.setItems(habitaciones);
 
+        // Validación en tiempo real para tipoField y descripcionField
+        tipoField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 32) {
+                tipoField.setText(oldValue);
+            } else if (!newValue.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+                tipoField.setText(oldValue);
+            }
+        });
+
+        descripcionField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 32) {
+                descripcionField.setText(oldValue);
+            } else if (!newValue.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+                descripcionField.setText(oldValue);
+            }
+        });
+
+        // Validación en tiempo real para precioField
+        precioField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 8) {
+                precioField.setText(oldValue);
+            } else if (!newValue.matches("\\d*")) {
+                precioField.setText(oldValue);
+            }
+        });
+
         cargarHabitacionesDesdeBaseDeDatos();
     }
 
@@ -93,6 +119,22 @@ public class HabitacionesController {
             return;
         }
 
+        // Validación de formato
+        if (tipo.length() > 32 || !tipo.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+            mostrarAlerta("Error", "El campo de tipo de habitación debe contener solo letras y un máximo de 32 caracteres.");
+            return;
+        }
+
+        if (descripcion.length() > 32 || !descripcion.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+            mostrarAlerta("Error", "El campo de descripción debe contener solo letras y un máximo de 32 caracteres.");
+            return;
+        }
+
+        if (precio.length() > 8 || !precio.matches("\\d*")) {
+            mostrarAlerta("Error", "El campo de precio debe contener solo números y un máximo de 8 dígitos.");
+            return;
+        }
+
         Habitacion habitacion = new Habitacion(0, tipo, descripcion, precio);
         if (guardarHabitacionEnBD(habitacion)) {
             mostrarAlerta("Habitación Guardada", "La habitación se ha guardado correctamente en la base de datos.");
@@ -103,6 +145,7 @@ public class HabitacionesController {
         limpiarCampos();
         cargarHabitacionesDesdeBaseDeDatos();
     }
+
 
 
     private boolean guardarHabitacionEnBD(Habitacion habitacion) {

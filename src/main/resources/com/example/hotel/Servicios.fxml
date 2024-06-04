@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -179,10 +180,34 @@
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="78.0" prefHeight="514.0" prefWidth="760.0" style="-fx-background-color: #5FBFC6;">
                <children>
-                  <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarServicio" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
-                  <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
-                  <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarServicio" text="Eliminar" />
-                  <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarServicio" text="Actualizar" />
+                  <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarServicio" prefHeight="25.0" prefWidth="62.0" text="Guardar">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Blend mode="GREEN" />
+                     </effect></Button>
+                  <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Blend mode="DARKEN" />
+                     </effect></Button>
+                  <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarServicio" text="Eliminar">
+                     <effect>
+                        <Blend mode="RED" />
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarServicio" text="Actualizar">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Blend mode="BLUE" />
+                     </effect></Button>
                   <TextField fx:id="tipoServicioField" layoutX="172.0" layoutY="71.0" />
                   <Label contentDisplay="RIGHT" layoutX="51.0" layoutY="67.0" prefHeight="25.0" prefWidth="90.0" text="Tipo de Servicio:" />
                   <Label layoutX="426.0" layoutY="67.0" prefHeight="25.0" prefWidth="43.0" text="Costo:" />
@@ -222,9 +247,9 @@
         </ImageView>
       <TableView fx:id="tablaServicios" layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
         <columns>
-          <TableColumn fx:id="codigoServicioColumn" prefWidth="126.00003051757812" text="Codigo De Servicio" />
+          <TableColumn fx:id="codigoServicioColumn" prefWidth="126.00003051757812" text="Codigo De Servicio" visible="false" />
           <TableColumn fx:id="tipoServicioColumn" prefWidth="447.0" text="Tipo De Servicio" />
-            <TableColumn fx:id="costoColumn" minWidth="0.0" prefWidth="179.0" text="Costo" />
+            <TableColumn fx:id="costoColumn" minWidth="0.0" prefWidth="298.0" text="Costo" />
         </columns>
       </TableView>
       <Label layoutX="21.0" layoutY="21.0" prefHeight="26.0" prefWidth="149.0" text="Administrador">

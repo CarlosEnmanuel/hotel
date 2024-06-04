@@ -62,6 +62,7 @@ public class ProveedoresController {
 
 
     private ObservableList<Proveedores> proveedores = FXCollections.observableArrayList();
+    private boolean isUpdatingTelefono = false;
 
     public void initialize() {
         codigoProveedoresColumn.setCellValueFactory(new PropertyValueFactory<>("codigoProveedor"));
@@ -72,7 +73,58 @@ public class ProveedoresController {
 
         proveedoresTableView.setItems(proveedores);
 
+        // Validación en tiempo real para nombreTextField
+        nombreTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 100) {
+                nombreTextField.setText(oldValue);
+            } else if (!newValue.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+                nombreTextField.setText(oldValue);
+            }
+        });
+
+        // Validación en tiempo real para direccionTextField
+        direccionTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 32) {
+                direccionTextField.setText(oldValue);
+            } else if (!newValue.matches("[\\p{L}0-9áéíóúÁÉÍÓÚñÑ\\s#]*")) {
+                direccionTextField.setText(oldValue);
+            }
+        });
+
+        // Validación en tiempo real para telefonoTextField
+        telefonoTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!isUpdatingTelefono) {
+                isUpdatingTelefono = true;
+                Platform.runLater(() -> {
+                    if (newValue.length() > 9) {
+                        telefonoTextField.setText(oldValue);
+                    } else {
+                        telefonoTextField.setText(formatPhoneNumber(newValue));
+                    }
+                    telefonoTextField.positionCaret(telefonoTextField.getText().length());
+                    isUpdatingTelefono = false;
+                });
+            }
+        });
+
+        // Validación en tiempo real para representanteTextField
+        representanteTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 50) {
+                representanteTextField.setText(oldValue);
+            } else if (!newValue.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+                representanteTextField.setText(oldValue);
+            }
+        });
+
         cargarProveedoresDesdeBaseDeDatos();
+    }
+
+    private String formatPhoneNumber(String phoneNumber) {
+        phoneNumber = phoneNumber.replaceAll("[^0-9]", ""); // Eliminar caracteres no numéricos
+        if (phoneNumber.length() > 4) {
+            phoneNumber = phoneNumber.substring(0, 4) + '-' + phoneNumber.substring(4);
+        }
+        return phoneNumber;
     }
 
     private void cargarProveedoresDesdeBaseDeDatos() {
@@ -116,8 +168,29 @@ public class ProveedoresController {
             return;
         }
 
-        Proveedores proveedores = new Proveedores(0, nombreEmpresa, telefono, direccion, nombreContacto);
-        if (guardarProveedorEnBD(proveedores)) {
+        // Validación de formato
+        if (nombreEmpresa.length() > 10 || !nombreEmpresa.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+            mostrarAlerta("Error", "El campo de nombre debe contener solo letras y un máximo de 10 caracteres.");
+            return;
+        }
+
+        if (direccion.length() > 32 || !direccion.matches("[\\p{L}0-9áéíóúÁÉÍÓÚñÑ\\s#]*")) {
+            mostrarAlerta("Error", "El campo de dirección debe contener solo letras, números y el carácter '#' con un máximo de 32 caracteres.");
+            return;
+        }
+
+        if (telefono.length() > 8 || !telefono.matches("\\d*")) {
+            mostrarAlerta("Error", "El campo de teléfono debe contener solo números y un máximo de 8 caracteres.");
+            return;
+        }
+
+        if (nombreContacto.length() > 50 || !nombreContacto.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+            mostrarAlerta("Error", "El campo de representante debe contener solo letras y un máximo de 50 caracteres.");
+            return;
+        }
+
+        Proveedores proveedor = new Proveedores(0, nombreEmpresa, telefono, direccion, nombreContacto);
+        if (guardarProveedorEnBD(proveedor)) {
             mostrarAlerta("Proveedor Guardado", "El proveedor se ha guardado correctamente en la base de datos.");
         } else {
             mostrarAlerta("Error", "No se pudo guardar el proveedor en la base de datos.");

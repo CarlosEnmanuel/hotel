@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -182,10 +183,34 @@
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="78.0" prefHeight="514.0" prefWidth="760.0" style="-fx-background-color: #5FBFC6;">
                     <children>
-                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarHabitacion" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
-                        <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
-                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarHabitacion" text="Eliminar" />
-                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarHabitacion" text="Actualizar" />
+                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarHabitacion" prefHeight="25.0" prefWidth="62.0" text="Guardar">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Blend mode="GREEN" />
+                     </effect></Button>
+                        <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Blend mode="DARKEN" />
+                     </effect></Button>
+                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarHabitacion" text="Eliminar">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Blend mode="RED" />
+                     </effect></Button>
+                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarHabitacion" text="Actualizar">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Blend mode="BLUE" />
+                     </effect></Button>
                         <TextField fx:id="tipoField" layoutX="171.0" layoutY="46.0" />
                         <Label contentDisplay="RIGHT" layoutX="59.0" layoutY="46.0" prefHeight="25.0" prefWidth="112.0" text="Tipo de habitacion" />
                         <Label layoutX="351.0" layoutY="46.0" prefHeight="25.0" prefWidth="84.0" text="Descripción:" />
@@ -218,10 +243,10 @@
                   <TextField fx:id="precioField" layoutX="170.0" layoutY="95.0" prefHeight="25.0" prefWidth="112.0" />
                     <TableView fx:id="tablaHabitaciones" layoutX="34.0" layoutY="203.0" prefHeight="200.0" prefWidth="717.0">
                         <columns>
-                            <TableColumn fx:id="codigoColumn" prefWidth="82.0" text="Cod. Habitacion" />
-                            <TableColumn fx:id="tipoColumn" prefWidth="181.0" text="Tipo de habitacion" />
-                            <TableColumn fx:id="descripcionColumn" minWidth="0.0" prefWidth="347.0" text="Descripcion" />
-                        <TableColumn fx:id="precioColumn" minWidth="0.0" prefWidth="106.0" text="Precio" />
+                            <TableColumn fx:id="codigoColumn" prefWidth="82.0" text="Cod. Habitacion" visible="false" />
+                            <TableColumn fx:id="tipoColumn" prefWidth="235.0" text="Tipo de habitacion" />
+                            <TableColumn fx:id="descripcionColumn" minWidth="0.0" prefWidth="329.0" text="Descripcion" />
+                        <TableColumn fx:id="precioColumn" minWidth="0.0" prefWidth="152.0" text="Precio" />
                         </columns>
                     </TableView>
                     </children></Pane>

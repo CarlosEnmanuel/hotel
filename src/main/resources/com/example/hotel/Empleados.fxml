@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -184,10 +185,34 @@
                 <!-- Dashboard -->
                 <Pane layoutX="20.0" layoutY="78.0" prefHeight="514.0" prefWidth="760.0" style="-fx-background-color: #5FBFC6;">
                     <children>
-                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarEmpleado" prefHeight="25.0" prefWidth="62.0" text="Guardar" />
-                        <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
-                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarEmpleado" text="Eliminar" />
-                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarEmpleado" text="Actualizar" />
+                        <Button layoutX="226.0" layoutY="150.0" mnemonicParsing="false" onAction="#guardarEmpleado" prefHeight="25.0" prefWidth="62.0" text="Guardar">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Blend mode="GREEN" />
+                     </effect></Button>
+                        <Button layoutX="423.0" layoutY="150.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Blend mode="DARKEN" />
+                     </effect></Button>
+                        <Button layoutX="228.0" layoutY="435.0" mnemonicParsing="false" onAction="#eliminarEmpleado" text="Eliminar">
+                     <effect>
+                        <Blend mode="RED" />
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                        <Button layoutX="417.0" layoutY="435.0" mnemonicParsing="false" onAction="#actualizarEmpleado" text="Actualizar">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <Blend mode="BLUE" />
+                     </effect></Button>
                         <TextField fx:id="nombresEmpleadoTextField" layoutX="82.0" layoutY="29.0" prefHeight="25.0" prefWidth="235.0" />
                         <Label contentDisplay="RIGHT" layoutX="22.0" layoutY="29.0" prefHeight="25.0" prefWidth="58.0" text="Nombre:" />
                         <Label layoutX="22.0" layoutY="91.0" prefHeight="25.0" prefWidth="43.0" text="Genero:" />
@@ -235,13 +260,13 @@
         </ImageView>
         <TableView fx:id="empleadosTableView" layoutX="225.0" layoutY="271.0" prefHeight="200.0" prefWidth="749.0">
             <columns>
-                <TableColumn fx:id="codigoEmpleadoColumn" text="Cod.Empleado" />
-                <TableColumn fx:id="nombresEmpleadoColumn" prefWidth="221.0" text="Nombre" />
-                <TableColumn fx:id="fechaNacimientoColumn" minWidth="0.0" prefWidth="124.0" text="Fecha de Nacimiento" />
-            <TableColumn fx:id="generoColumn" minWidth="0.0" prefWidth="91.0" text="Genero" />
-            <TableColumn fx:id="duiColumn" minWidth="0.0" prefWidth="71.0" text="Dui" />
-            <TableColumn fx:id="telefonoColumn" minWidth="0.0" prefWidth="82.0" text="Teléfono" />
-            <TableColumn fx:id="cargoColumn" minWidth="0.0" prefWidth="82.0" text="Cargo" />
+                <TableColumn fx:id="codigoEmpleadoColumn" text="Cod.Empleado" visible="false" />
+                <TableColumn fx:id="nombresEmpleadoColumn" prefWidth="178.0" text="Nombre" />
+                <TableColumn fx:id="fechaNacimientoColumn" minWidth="0.0" prefWidth="148.0" text="Fecha de Nacimiento" />
+            <TableColumn fx:id="generoColumn" minWidth="0.0" prefWidth="110.0" text="Genero" />
+            <TableColumn fx:id="duiColumn" minWidth="0.0" prefWidth="116.0" text="Dui" />
+            <TableColumn fx:id="telefonoColumn" minWidth="0.0" prefWidth="96.0" text="Teléfono" />
+            <TableColumn fx:id="cargoColumn" minWidth="0.0" prefWidth="100.0" text="Cargo" />
             </columns>
         </TableView>
         <Label layoutX="21.0" layoutY="21.0" prefHeight="26.0" prefWidth="149.0" text="Administrador">

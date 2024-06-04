@@ -78,7 +78,8 @@ public class EmpleadosController {
         telefonoColumn.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         cargoColumn.setCellValueFactory(new PropertyValueFactory<>("cargo"));
 
-        generoComboBox.setItems(FXCollections.observableArrayList("Masculino", "Femenino"));
+        generoComboBox.setItems(FXCollections.observableArrayList("Seleccionar", "Masculino", "Femenino"));
+        generoComboBox.setValue("Seleccionar");
 
         empleadosTableView.setItems(empleados);
 
@@ -87,8 +88,12 @@ public class EmpleadosController {
             if (!isUpdatingTelefono) {
                 isUpdatingTelefono = true;
                 Platform.runLater(() -> {
-                    telefonoTextField.setText(formatPhoneNumber(newValue));
-                    telefonoTextField.positionCaret(telefonoTextField.getText().length());
+                    if (newValue.length() > 9) {
+                        telefonoTextField.setText(oldValue);
+                    } else {
+                        telefonoTextField.setText(formatPhoneNumber(newValue));
+                        telefonoTextField.positionCaret(telefonoTextField.getText().length());
+                    }
                     isUpdatingTelefono = false;
                 });
             }
@@ -98,29 +103,37 @@ public class EmpleadosController {
             if (!isUpdatingDui) {
                 isUpdatingDui = true;
                 Platform.runLater(() -> {
-                    duiTextField.setText(formatDuiNumber(newValue));
-                    duiTextField.positionCaret(duiTextField.getText().length());
+                    if (newValue.length() > 10) {
+                        duiTextField.setText(oldValue);
+                    } else {
+                        duiTextField.setText(formatDuiNumber(newValue));
+                        duiTextField.positionCaret(duiTextField.getText().length());
+                    }
                     isUpdatingDui = false;
                 });
             }
         });
 
-        // Limitar los campos de nombres y cargo a letras
         nombresEmpleadoTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[\\p{L} ]*")) {
-                nombresEmpleadoTextField.setText(newValue.replaceAll("[^\\p{L} ]", ""));
+            if (newValue.length() > 32) {
+                nombresEmpleadoTextField.setText(oldValue);
+            } else if (!newValue.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+                nombresEmpleadoTextField.setText(oldValue);
             }
         });
 
         cargoTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("[\\p{L} ]*")) {
-                cargoTextField.setText(newValue.replaceAll("[^\\p{L} ]", ""));
+            if (newValue.length() > 16) {
+                cargoTextField.setText(oldValue);
+            } else if (!newValue.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+                cargoTextField.setText(oldValue);
             }
         });
 
-
         cargarEmpleadosDesdeBaseDeDatos();
     }
+
+
 
     private String formatPhoneNumber(String phoneNumber) {
         phoneNumber = phoneNumber.replaceAll("[^0-9]", ""); // Remove non-numeric characters
@@ -179,8 +192,31 @@ public class EmpleadosController {
         String telefono = telefonoTextField.getText();
         String cargo = cargoTextField.getText();
 
-        if (nombresEmpleado.isEmpty() || fechaNacimiento == null || genero.isEmpty() || dui.isEmpty() || telefono.isEmpty() || cargo.isEmpty()) {
+        if (nombresEmpleado.isEmpty() || fechaNacimiento == null || genero.equals("Seleccionar") || dui.isEmpty() || telefono.isEmpty() || cargo.isEmpty()) {
             mostrarAlerta("Error", "Todos los campos son obligatorios.");
+            return;
+        }
+
+        // Validar el formato del nombre
+        if (nombresEmpleado.length() > 50 || !nombresEmpleado.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+            mostrarAlerta("Error", "El campo de nombres debe contener solo letras y un máximo de 50 caracteres.");
+            return;
+        }
+
+        // Validar el formato de cargo
+        if (cargo.length() > 50 || !cargo.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
+            mostrarAlerta("Error", "El campo de cargo debe contener solo letras y un máximo de 50 caracteres.");
+            return;
+        }
+
+        // Validar el formato de Dui y teléfono
+        if (!dui.matches("^[0-9]{8}-[0-9]{1}$")) {
+            mostrarAlerta("Error", "El campo de Dui debe contener exactamente 9 números y un guión.");
+            return;
+        }
+
+        if (!telefono.matches("^[0-9]{4}-[0-9]{4}$")) {
+            mostrarAlerta("Error", "El campo de teléfono debe contener exactamente 8 números y un guión.");
             return;
         }
 
@@ -194,6 +230,7 @@ public class EmpleadosController {
         limpiarCampos();
         cargarEmpleadosDesdeBaseDeDatos();
     }
+
 
     private boolean guardarEmpleadoEnBD(Empleado empleado) {
         try {
