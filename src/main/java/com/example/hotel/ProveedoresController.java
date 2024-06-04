@@ -155,7 +155,6 @@ public class ProveedoresController {
             mostrarAlerta("Error de Base de Datos", "Hubo un error al conectar con la base de datos.");
         }
     }
-
     @FXML
     void guardarProveedor() {
         String nombreEmpresa = nombreTextField.getText();
@@ -168,29 +167,8 @@ public class ProveedoresController {
             return;
         }
 
-        // Validación de formato
-        if (nombreEmpresa.length() > 10 || !nombreEmpresa.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
-            mostrarAlerta("Error", "El campo de nombre debe contener solo letras y un máximo de 10 caracteres.");
-            return;
-        }
-
-        if (direccion.length() > 32 || !direccion.matches("[\\p{L}0-9áéíóúÁÉÍÓÚñÑ\\s#]*")) {
-            mostrarAlerta("Error", "El campo de dirección debe contener solo letras, números y el carácter '#' con un máximo de 32 caracteres.");
-            return;
-        }
-
-        if (telefono.length() > 8 || !telefono.matches("\\d*")) {
-            mostrarAlerta("Error", "El campo de teléfono debe contener solo números y un máximo de 8 caracteres.");
-            return;
-        }
-
-        if (nombreContacto.length() > 50 || !nombreContacto.matches("[\\p{L}áéíóúÁÉÍÓÚñÑ\\s]*")) {
-            mostrarAlerta("Error", "El campo de representante debe contener solo letras y un máximo de 50 caracteres.");
-            return;
-        }
-
-        Proveedores proveedor = new Proveedores(0, nombreEmpresa, telefono, direccion, nombreContacto);
-        if (guardarProveedorEnBD(proveedor)) {
+        Proveedores proveedores = new Proveedores(0, nombreEmpresa, telefono, direccion, nombreContacto);
+        if (guardarProveedorEnBD(proveedores)) {
             mostrarAlerta("Proveedor Guardado", "El proveedor se ha guardado correctamente en la base de datos.");
         } else {
             mostrarAlerta("Error", "No se pudo guardar el proveedor en la base de datos.");
@@ -203,13 +181,12 @@ public class ProveedoresController {
     private boolean guardarProveedorEnBD(Proveedores proveedores) {
         try {
             Connection conn = Conexion.getConnection();
-            String sql = "INSERT INTO proveedores (nombreEmpresa, telefono, direccion, nombreContacto, codigoSucursal) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO proveedores (nombreEmpresa, telefono, direccion, nombreContacto) VALUES (?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, proveedores.getNombreEmpresa());
             pstmt.setString(2, proveedores.getTelefono());
             pstmt.setString(3, proveedores.getDireccion());
             pstmt.setString(4, proveedores.getNombreContacto());
-            pstmt.setInt(5, 1); // Establecer el valor de codigoSucursal a 1
 
             int filasAfectadas = pstmt.executeUpdate();
 
@@ -222,7 +199,6 @@ public class ProveedoresController {
             return false;
         }
     }
-
 
 
 
