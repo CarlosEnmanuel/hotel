@@ -684,7 +684,7 @@ public class ReportesController {
             ResultSet resultSet = statement.executeQuery();
 
             // Crear una tabla para mostrar los datos
-            Table table = new Table(6).useAllAvailableWidth();
+            Table table = new Table(5).useAllAvailableWidth();
             table.setTextAlignment(TextAlignment.CENTER);
 
             // Añadir encabezados a la tabla
@@ -693,7 +693,7 @@ public class ReportesController {
             table.addHeaderCell(new Cell().add(new Paragraph("Teléfono")).setBackgroundColor(ColorConstants.LIGHT_GRAY).setTextAlignment(TextAlignment.CENTER));
             table.addHeaderCell(new Cell().add(new Paragraph("Dirección")).setBackgroundColor(ColorConstants.LIGHT_GRAY).setTextAlignment(TextAlignment.CENTER));
             table.addHeaderCell(new Cell().add(new Paragraph("Contacto")).setBackgroundColor(ColorConstants.LIGHT_GRAY).setTextAlignment(TextAlignment.CENTER));
-            table.addHeaderCell(new Cell().add(new Paragraph("Código Sucursal")).setBackgroundColor(ColorConstants.LIGHT_GRAY).setTextAlignment(TextAlignment.CENTER));
+            //table.addHeaderCell(new Cell().add(new Paragraph("Código Sucursal")).setBackgroundColor(ColorConstants.LIGHT_GRAY).setTextAlignment(TextAlignment.CENTER));
 
             while (resultSet.next()) {
                 String codigoProveedor = resultSet.getString("codigoProveedor");
@@ -701,7 +701,7 @@ public class ReportesController {
                 String telefono = resultSet.getString("telefono");
                 String direccion = resultSet.getString("direccion");
                 String nombreContacto = resultSet.getString("nombreContacto");
-                String codigoSucursal = resultSet.getString("codigoSucursal");
+                //String codigoSucursal = resultSet.getString("codigoSucursal");
 
                 // Asegurarse de que los valores no sean nulos antes de agregarlos a la tabla
                 table.addCell(new Cell().add(new Paragraph(codigoProveedor != null ? codigoProveedor : "")).setTextAlignment(TextAlignment.CENTER));
@@ -709,7 +709,7 @@ public class ReportesController {
                 table.addCell(new Cell().add(new Paragraph(telefono != null ? telefono : "")).setTextAlignment(TextAlignment.CENTER));
                 table.addCell(new Cell().add(new Paragraph(direccion != null ? direccion : "")).setTextAlignment(TextAlignment.CENTER));
                 table.addCell(new Cell().add(new Paragraph(nombreContacto != null ? nombreContacto : "")).setTextAlignment(TextAlignment.CENTER));
-                table.addCell(new Cell().add(new Paragraph(codigoSucursal != null ? codigoSucursal : "")).setTextAlignment(TextAlignment.CENTER));
+                //table.addCell(new Cell().add(new Paragraph(codigoSucursal != null ? codigoSucursal : "")).setTextAlignment(TextAlignment.CENTER));
             }
             document.add(table);
 
